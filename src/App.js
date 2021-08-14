@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Routes from './Routes';
+import { checkIfMobileScreen } from './utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { set } from 'automate-redux';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-function App() {
+import './App.less';
+
+const App = () => {
+
+  const dispatch = useDispatch(); 
+  const pendingRequests = useSelector(state => state.pendingRequests);
+  const loading = pendingRequests > 0 ? true : false; 
+  
+  checkIfMobileScreen() ? dispatch(set('mobileSidenav', true))
+    : dispatch(set('mobileSidenav', false));
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Routes />
+       {loading && 
+        <Spin className='page-loading' 
+        indicator={<LoadingOutlined style={{ fontSize:'64px' }} spin/>} 
+        spinning={true} 
+        size='large' />}
+    </React.Fragment>
   );
 }
 
 export default App;
+

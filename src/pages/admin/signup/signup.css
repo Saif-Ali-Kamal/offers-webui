@@ -1,0 +1,23 @@
+.signup {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #acacac;
+}
+
+.signup-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 561px;
+}
+
+@media only screen and (max-width: 992px){
+  .signup-card{
+    min-width: 100%;
+    padding: 0 16px;
+  }
+}
