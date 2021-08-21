@@ -22,7 +22,6 @@ const Topbar = ({ toggle, selectedNav }) => {
           background:'#fff', 
           zIndex:'2', 
           boxShadow:'0px 2px 4px rgba(0, 0, 0, 0.25)', 
-          padding:'0 24px',
           position:'sticky',
           top:0,
           display: 'flex',

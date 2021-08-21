@@ -4,16 +4,17 @@ import { Carousel } from 'antd'
 const Banner = () => {
   
   const contentStyle = {
-    height: '250px',
+    height: '350px',
     width: '100%',
     color: '#fff',
     lineHeight: '160px',
     textAlign: 'center',
     background: '#364d79',
+    borderRadius: '10px'
   };
   
   return(
-    <Carousel autoplay effect='scrollx'>
+    <Carousel style={contentStyle} autoplay effect='scrollx'>
       <div>
         <img style={contentStyle} src='https://rukminim1.flixcart.com/flap/50/50/image/ac6ec0ece8b084f1.jpg?q=50' alt='img'/>
       </div>
