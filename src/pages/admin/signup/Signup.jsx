@@ -1,22 +1,19 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import SignupForm from '../../../components/admin/signupForm/SignupForm';
-import { userSignup } from '../../../services/users';
-import { notify, incrementPendingRequests, decrementPendingRequests } from '../../../utils';
+import { userSignupAction } from '../../../redux/actions/userActions';
+import { adminRoles } from '../../../constant';
 import './signup.css';
 
 const Signup = () => {
 
-  const history = useHistory();
+  const dispatch = useDispatch();
+
+  // const loading = useSelector(state => state.user.)
 
   const handleAdminSignup = (name, email, password) => {
-    incrementPendingRequests();
-    userSignup({ name: name, email: email, password: password, isAdmin: true})
-    .then((msg) => {
-      history.push('/admin/signin');
-      notify('success', 'Signup success', msg);
-    }).catch(ex => notify('error', 'Signup Error', ex))
-    .finally(() => decrementPendingRequests())
+    const userData = { name, email, password, roles: adminRoles };
+    dispatch(userSignupAction(userData));
   }
 
   return (

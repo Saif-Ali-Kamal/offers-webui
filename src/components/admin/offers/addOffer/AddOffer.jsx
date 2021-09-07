@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Input, Cascader, Select, DatePicker } from 'antd';
+import { Modal, Form, Input, Cascader, Select, DatePicker, Upload } from 'antd';
 import moment from 'moment';
 import { categoryOptions } from '../../../../constant';
 

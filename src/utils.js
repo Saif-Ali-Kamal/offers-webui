@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router';
 import { notification } from 'antd';
 import { increment, decrement, set } from 'automate-redux';
-import store from './store';
+import store from './redux/store';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){

@@ -64,3 +64,15 @@ export const categoryOptions = [
     { value: 'others', label: 'Others' }, 
   ]},
 ]
+
+export const userRoles = ['user'];
+
+export const adminRoles = ['admin', 'user'];
+
+export const superAdminRoles = ['superAdmin', 'admin', 'user'];
+
+export const loading = 'LOADING';
+
+export const success = 'SUCCESS';
+
+export const failed = 'FAILED';

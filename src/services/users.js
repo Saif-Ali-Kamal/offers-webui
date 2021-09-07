@@ -1,21 +1,21 @@
 import api from './api';
 
-export const userSignup = (userConfig) => {
+export const userSignupService = (userConfig) => {
   return new Promise((resolve, reject) => {
     api.post('/user/signup', userConfig).then(res => {
       if(res.status === 201 || res.status === 409){
-        resolve(res.data.message)
+        resolve(res?.data)
         return
       }
     }).catch(ex => reject(ex))
   })
 }
 
-export const userSignin = (userConfig) => {
+export const userSigninService = (userConfig) => {
   return new Promise((resolve, reject) => {
     api.post('/user/signin', userConfig).then(res => {
       if(res.status === 200){
-        resolve({msg: res.data.msg, token: res.data.token})
+        resolve(res?.data)
         return 
       }
     }).catch(ex => reject(ex))
