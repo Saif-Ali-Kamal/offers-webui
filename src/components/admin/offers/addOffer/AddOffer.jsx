@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Cascader, Select, DatePicker, Upload } from 'antd';
 import moment from 'moment';
-import { categoryOptions } from '../../../../constant';
+import { categoryOptions } from '../../../../utils/constant';
 
 const AddOffer = ({ handleAddOffer, handleCancelOffer, initialvalues, handleEditOffer }) => {
 

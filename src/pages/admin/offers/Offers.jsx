@@ -4,7 +4,7 @@ import { set } from 'automate-redux';
 import PageLayout from '../../../components/admin/layout/PageLayout';
 import OffersTable from '../../../components/admin/offers/offersTable/OffersTable';
 import AddOffer from '../../../components/admin/offers/addOffer/AddOffer';
-import { decrementPendingRequests, incrementPendingRequests, notify } from '../../../utils';
+import { decrementPendingRequests, incrementPendingRequests, notify } from '../../../utils/utils';
 import { addOffer, getOffers, updateOffer, deleteOffer } from '../../../services/offers';
 
 const Offers = () => {

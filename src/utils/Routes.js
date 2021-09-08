@@ -3,15 +3,15 @@ import { Router, Switch, Route, Redirect } from 'react-router';
 import history from './history';
 
 import { AdminRoute } from './utils';
-import Signin from './pages/admin/signin/Signin';
-import Signup from './pages/admin/signup/Signup';
-import Dashboard from './pages/admin/dashboard/Dashboard';
-import Offers from './pages/admin/offers/Offers';
+import Signin from '../pages/admin/signin/Signin';
+import Signup from '../pages/admin/signup/Signup';
+import Dashboard from '../pages/admin/dashboard/Dashboard';
+import Offers from '../pages/admin/offers/Offers';
 
-import Home from './pages/user/Home';
-import UserOffers from './pages/user/UserOffers';
+import Home from '../pages/user/Home';
+import UserOffers from '../pages/user/UserOffers';
 
-export default () => {
+const Routes = () => {
   return (
     <Router history={history}>
       <Switch>
@@ -31,3 +31,5 @@ export default () => {
     </Router>
   );
 }
+
+export default Routes;

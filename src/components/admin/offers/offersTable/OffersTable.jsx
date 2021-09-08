@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Table, Button, Popconfirm, Tooltip } from 'antd';
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { formatDateTime, capitalizeFirstLetter } from '../../../../utils';
+import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
 
 const OffersTable = ({ offers, handleAddOfferVisible, setOfferClicked, handleDeleteOffer }) => {
   

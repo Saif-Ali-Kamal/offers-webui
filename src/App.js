@@ -1,6 +1,6 @@
 import React from 'react';
-import Routes from './Routes';
-import { checkIfMobileScreen } from './utils';
+import Routes from './utils/Routes';
+import { checkIfMobileScreen } from './utils/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { set } from 'automate-redux';
 import { Spin } from 'antd';

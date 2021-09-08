@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, Button, Divider, Layout, Popover, Row, Col } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { userLogout } from '../../../../utils';
+import { userLogout } from '../../../../utils/utils';
 
 const { Header } = Layout
 

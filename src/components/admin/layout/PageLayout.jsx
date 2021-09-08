@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Breadcrumb } from 'antd';
 import Sidenav from './sidenav/Sidenav';
 import Topbar from './topbar/Topbar';
-import { checkIfMobileScreen } from '../../../utils';
+import { checkIfMobileScreen } from '../../../utils/utils';
 
 const PageLayout = ({ children, selectedNav, crumbs = [] }) => {
 

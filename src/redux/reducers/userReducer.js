@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { failed, loading, success } from '../../constant';
-import { userSignupAction } from '../actions/userActions';
+import { failed, loading, success } from '../../utils/constant';
+import { userSigninAction, userSignupAction } from '../actions/userActions';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -10,13 +10,20 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [userSignupAction.pending]: (state) => {
-      state.status = loading
+      state.status = loading;
     },
     [userSignupAction.fulfilled]: (state) => {
-      state.status = success
+      state.status = success;
     },
     [userSignupAction.rejected]: (state) => {
-      state.status = failed
+      state.status = failed;
+    },
+    [userSigninAction.pending]: (state) => {
+      state.status = loading;
+    },
+    [userSigninAction.fulfilled]: (state, action) => {
+      state.status = success;
+      state.data = action.payload;
     }
   }
 })

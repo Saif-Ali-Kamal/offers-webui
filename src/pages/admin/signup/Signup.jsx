@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SignupForm from '../../../components/admin/signupForm/SignupForm';
 import { userSignupAction } from '../../../redux/actions/userActions';
-import { adminRoles } from '../../../constant';
+import { adminRoles } from '../../../utils/constant';
 import './signup.css';
 
 const Signup = () => {

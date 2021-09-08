@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { userSignin } from '../../../services/users';
+import { userSigninService } from '../../../services/users';
 import SigninForm from '../../../components/admin/signinForm/SigninForm';
-import { incrementPendingRequests, decrementPendingRequests, notify, saveToken } from '../../../utils';
+import { incrementPendingRequests, decrementPendingRequests, notify, saveToken } from '../../../utils/utils';
 import './signin.css';
 
 const Signin = () => {
@@ -11,7 +11,7 @@ const Signin = () => {
   
   const handleAdminSignin = (email, password) => {
     incrementPendingRequests()
-    userSignin({ email: email, password: password, isAdmin: true })
+    userSigninService({ email: email, password: password, isAdmin: true })
     .then(({msg, token}) => {
       saveToken(token);
       history.push('/admin/dashboard');
