@@ -20,26 +20,21 @@ const Offers = () => {
   }, [])
 
   const handleGetOffers = () => {
-    incrementPendingRequests();
     getOffers().then(({msg, offers, totalOffers}) => {
       notify('success', 'Offer fetched successfully', msg);
       dispatch(set('totalOffers', totalOffers));
       dispatch(set('offers', offers));
     }).catch(ex => notify('error', 'Error in fetching offer', ex))
-    .finally(() => decrementPendingRequests());
   }
 
   const handleAddOffer = (offer) => {
-    incrementPendingRequests();
     addOffer(offer).then(({ msg, result}) => {
       notify('success', 'Offer added successfully', msg);
       dispatch(set('offers', [...offers, result]));
     }).catch(ex => notify('error', 'Error in adding offer', ex))
-    .finally(() => decrementPendingRequests());
   }
 
   const handleEditOffer = (id, updatedOffer) => {
-    incrementPendingRequests();
     updateOffer(id, updatedOffer).then(({msg}) => {
       notify('success', 'Offer updated successfully', msg);
       offers.map(offer => {
@@ -51,17 +46,14 @@ const Offers = () => {
         return offer
       })
     }).catch(ex => notify('error', 'Error in updating offer', ex))
-    .finally(() => decrementPendingRequests());
   }
 
   const handleDeleteOffer = (id) => {
-    incrementPendingRequests();
     deleteOffer(id).then(({msg}) => {
       notify('success', 'Offer deleted successfully', msg);
       const newOffers = offers.filter(offer => offer.id !== id);
       dispatch(set('offers', newOffers))
     }).catch(ex => notify('error', 'Error in deleting offer', ex))
-    .finally(() => decrementPendingRequests());
   }
 
   const handleCancelOffer = () => { 

@@ -1,23 +1,17 @@
 import React from 'react';
-import { useHistory } from 'react-router';
-import { userSigninService } from '../../../services/users';
+import { useDispatch } from 'react-redux';
 import SigninForm from '../../../components/admin/signinForm/SigninForm';
-import { incrementPendingRequests, decrementPendingRequests, notify, saveToken } from '../../../utils/utils';
+import { userSigninAction } from '../../../redux/actions/userActions';
+import { adminRoles } from '../../../utils/constant';
 import './signin.css';
 
 const Signin = () => {
 
-  const history = useHistory();
+  const dispatch = useDispatch();
   
   const handleAdminSignin = (email, password) => {
-    incrementPendingRequests()
-    userSigninService({ email: email, password: password, isAdmin: true })
-    .then(({msg, token}) => {
-      saveToken(token);
-      history.push('/admin/dashboard');
-      notify('success', 'Signup success', msg);
-    }).catch(ex => notify('error', 'Signup Error', ex))
-    .finally(() => decrementPendingRequests())
+    const userData = { email, password, roles: adminRoles };
+    dispatch(userSigninAction(userData));
   } 
 
   return (

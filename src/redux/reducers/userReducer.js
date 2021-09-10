@@ -24,6 +24,9 @@ export const userSlice = createSlice({
     [userSigninAction.fulfilled]: (state, action) => {
       state.status = success;
       state.data = action.payload;
+    },
+    [userSigninAction.rejected]: (state) => {
+      state.status = failed;
     }
   }
 })

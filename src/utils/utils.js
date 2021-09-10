@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 import { notification } from 'antd';
-import { increment, decrement, set } from 'automate-redux';
+import jwt from 'jsonwebtoken';
 import store from '../redux/store';
 
 export const checkIfMobileScreen = () => {
@@ -12,41 +12,19 @@ export const checkIfMobileScreen = () => {
   }
 }
 
-export const incrementPendingRequests = () => {
-  store.dispatch(increment("pendingRequests"))
-}
-
-export const decrementPendingRequests = () => {
-  store.dispatch(decrement("pendingRequests"))
-}
-
 export const notify = (type, title, msg, duration) => {
   notification[type]({ message: title, description: String(msg), duration: duration });
 }
 
-const decodeToken = (token) => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-  return JSON.parse(jsonPayload);
-}
-
 export const saveToken = (token) => {
-  const decodedToken = decodeToken(token);
-  if(token && (decodedToken.exp * 1000) > Date.now()){
+  const { userId, name, email, roles, exp } = jwt.decode(token);
+  if(token && (exp * 1000) > Date.now()){
     localStorage.setItem('token', token);
-    localStorage.setItem('id', decodedToken.userid);
-    localStorage.setItem('name', decodedToken.name);
-    localStorage.setItem('email', decodedToken.email);
-    localStorage.setItem('isAdmin', decodedToken.isAdmin);
-    store.dispatch(set('user', { 
-      id: localStorage.getItem('id'),
-      name: localStorage.getItem('name'),
-      email: localStorage.getItem('email'),
-      isAdmin: localStorage.getItem('isAdmin')
-    }))
+    localStorage.setItem('id', userId);
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('roles', roles);
+    return { userId, name, email, roles }
   }else{
     localStorage.clear();
   }
@@ -80,8 +58,8 @@ export const capitalizeFirstLetter = (text) => {
 const isAdminLoggedin = () => {
   const token = getToken();
   if(token){
-    const decodedToken = decodeToken(token);
-    if(decodedToken.isAdmin && (decodedToken.exp * 1000) > Date.now())
+    const { roles, exp } = jwt.decode(token);
+    if(roles && (exp * 1000) > Date.now())
       return true;
   }else {
     return false;
@@ -102,8 +80,8 @@ export const AdminRoute = ({ component: Component, ...rest }) => {
 export const onAppLoad = () => {
   const token = getToken();
   if(token) {
-    const decodedToken = decodeToken(token);
-    if(decodedToken.isAdmin && (decodedToken.exp * 1000) > Date.now() && isAdminLoggedin()) {
+    const { roles, exp } = jwt.decode(token);
+    if(roles && (exp * 1000) > Date.now() && isAdminLoggedin()) {
       saveToken(token);
       return <Redirect to='/admin/dashboard' />
     } else {
