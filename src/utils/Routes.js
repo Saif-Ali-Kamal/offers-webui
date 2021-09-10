@@ -3,8 +3,8 @@ import { Router, Switch, Route, Redirect } from 'react-router';
 import history from './history';
 
 import { AdminRoute } from './utils';
-import Signin from '../pages/admin/signin/Signin';
-import Signup from '../pages/admin/signup/Signup';
+import Signin from '../pages/auth/signin/Signin';
+import Signup from '../pages/auth/signup/Signup';
 import Dashboard from '../pages/admin/dashboard/Dashboard';
 import Offers from '../pages/admin/offers/Offers';
 

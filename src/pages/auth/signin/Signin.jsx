@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import SigninForm from '../../../components/admin/signinForm/SigninForm';
+import SigninForm from '../../../components/auth/signinForm/SigninForm';
 import { userSigninAction } from '../../../redux/actions/userActions';
 import { adminRoles } from '../../../utils/constant';
 import './signin.css';
