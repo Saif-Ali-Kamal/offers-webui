@@ -1,8 +1,8 @@
 import api from './api';
 
-export const addOffer = (offer) => {
+export const addOfferService = (offer) => {
   return new Promise((resolve, reject) => {
-    api.post('/offer/', offer).then(res => {
+    api.post('/offer/addOffer', offer).then(res => {
       if(res.status === 200){
         resolve({ msg: res.data.message, result: res.data.offer })
       }
@@ -10,9 +10,9 @@ export const addOffer = (offer) => {
   })
 }
 
-export const getOffers = () => {
+export const getAllOffersService = () => {
   return new Promise((resolve, reject) => {
-    api.get('/offer/').then(res => {
+    api.get('/offer/getAllOffers').then(res => {
       if(res.status === 200){
         resolve({ msg: res.data.msg, offers: res.data.offers, totalOffers: res.data.count })
       }
@@ -20,9 +20,19 @@ export const getOffers = () => {
   })
 }
 
-export const updateOffer = (id, updateOffers) => {
+export const getOfferByIdService = (id) => {
   return new Promise((resolve, reject) => {
-    api.patch(`/offer/${id}`, updateOffers).then(res => {
+    api.get(`/offer/getOffer/${id}`).then(res => {
+      if(res.status === 200){
+        resolve({ msg: res.data.message, offers: res.data })
+      }
+    }).catch(ex => reject(ex))
+  })
+}
+
+export const updateOfferService = (id, updateOffers) => {
+  return new Promise((resolve, reject) => {
+    api.patch(`/offer/getOffer/${id}`, updateOffers).then(res => {
       if(res.status === 200){
         resolve({ msg: res.data.msg })
       }
@@ -30,9 +40,9 @@ export const updateOffer = (id, updateOffers) => {
   })
 }
 
-export const deleteOffer = (id) => {
+export const deleteOfferService = (id) => {
   return new Promise((resolve, reject) => {
-    api.delete(`/offer/${id}`).then(res => {
+    api.delete(`/offer/deleteOffer/${id}`).then(res => {
       if(res.status === 200){
         resolve({ msg: res.data.msg })
       }

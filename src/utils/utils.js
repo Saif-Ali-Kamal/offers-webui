@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router';
 import { notification } from 'antd';
 import jwt from 'jsonwebtoken';
 import store from '../redux/store';
+import { onPageLoad } from '../redux/reducers/userReducer';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){
@@ -82,7 +83,8 @@ export const onAppLoad = () => {
   if(token) {
     const { roles, exp } = jwt.decode(token);
     if(roles && (exp * 1000) > Date.now() && isAdminLoggedin()) {
-      saveToken(token);
+      const saveTokenData = saveToken(token);
+      store.dispatch(onPageLoad(saveTokenData));
       return <Redirect to='/admin/dashboard' />
     } else {
       localStorage.clear()

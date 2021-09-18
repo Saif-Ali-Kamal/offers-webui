@@ -96,7 +96,7 @@ const OffersTable = ({ offers, handleAddOfferVisible, setOfferClicked, handleDel
     }
   ];
 
-  const offerTableData = offers.map(offer => {
+  const offerTableData = offers?.map(offer => {
     return offer;
   })
 

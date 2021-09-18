@@ -3,12 +3,13 @@ import { Avatar, Button, Divider, Layout, Popover, Row, Col } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { userLogout } from '../../../../utils/utils';
+import { adminRoles } from '../../../../utils/constant';
 
 const { Header } = Layout
 
 const Topbar = ({ toggle }) => {
 
-  const admin = useSelector(state => state.user);
+  const admin = useSelector(state => state.user.userData);
 
   const profileContent = <div style={{ margin: '8px', width: '200px' }}>
     <Row>
@@ -18,7 +19,7 @@ const Topbar = ({ toggle }) => {
         </Avatar>
       </Col>
       <Col span={18} offset={1}>
-        <p style={{ marginBottom: '0' }}>{admin.name} {admin.isAdmin ? '(Admin)' : ''}</p>
+        <p style={{ marginBottom: '0' }}>{admin.name} {admin.roles.toString() === adminRoles.toString() ? '(Admin)' : `${adminRoles}`}</p>
         <p style={{ margin: '0' }}>{admin.email}</p>
       </Col>
     </Row>
