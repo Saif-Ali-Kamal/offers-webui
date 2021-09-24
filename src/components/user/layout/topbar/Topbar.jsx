@@ -11,9 +11,8 @@ import ContactIcon from '../../../../icons/ContactIcon';
 
 const { Header } = Layout
 
-const Topbar = ({ toggle, selectedNav }) => {
+const Topbar = ({ toggle, selectedNav, mobileSidenav }) => {
 
-  const mobileSidenav = useSelector(state => state.mobileSidenav)
   const history = useHistory();
 
   return (
@@ -26,6 +25,7 @@ const Topbar = ({ toggle, selectedNav }) => {
           top:0,
           display: 'flex',
           justifyContent: mobileSidenav ? '' : 'space-between',
+          padding: mobileSidenav && '0 24px',
           alignItems: 'center' }}>
           {mobileSidenav && React.createElement(MenuOutlined, {
             className: 'trigger',

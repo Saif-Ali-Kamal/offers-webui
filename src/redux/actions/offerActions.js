@@ -18,7 +18,7 @@ export const getAllOffersAction = createAsyncThunk(
   async () => {
     return getAllOffersService().then(res => {
       notify('success', 'Offer fetched successfully', res.message);
-      return { offers: res.data, totalOffers: res.count };
+      return { offers: res?.offers, totalOffers: res?.totalOffers };
     }).catch(ex => notify('error', 'Error in fetching offer', ex));
   }
 );

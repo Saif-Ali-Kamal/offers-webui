@@ -41,7 +41,7 @@ export const userSlice = createSlice({
       state.status = failed;
     }
   }
-})
+});
 
 export const { onPageLoad } = userSlice.actions;
 

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './reducers/userReducer';
 import offerReducer from './reducers/offerReducer';
+import utilsReducer from './reducers/utilsReducer';
 
 // const initialState = {
 //   user: {},
@@ -12,7 +13,8 @@ import offerReducer from './reducers/offerReducer';
 const store = configureStore({
   reducer: {
     user: userReducer,
-    offers: offerReducer
+    offers: offerReducer,
+    utils: utilsReducer
   },
  // preloadedState: initialState,
   devTools: process.env.state !== 'production'

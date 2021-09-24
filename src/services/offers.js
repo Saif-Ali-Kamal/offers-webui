@@ -14,7 +14,7 @@ export const getAllOffersService = () => {
   return new Promise((resolve, reject) => {
     api.get('/offer/getAllOffers').then(res => {
       if(res.status === 200){
-        resolve({ msg: res.data.msg, offers: res.data.offers, totalOffers: res.data.count })
+        resolve({ msg: res.data.mesage, offers: res.data.data, totalOffers: res.data.count })
       }
     }).catch(ex => reject(ex))
   })

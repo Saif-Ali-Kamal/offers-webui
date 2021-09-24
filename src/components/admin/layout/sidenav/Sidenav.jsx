@@ -8,9 +8,7 @@ import './sidenav.css';
 
 const { Sider } = Layout;
 
-const Sidenav = ({ selectedNav, collapsed, closeSidenav }) => {
-
-  const mobileSidenav = useSelector(state => state.mobileSidenav);
+const Sidenav = ({ selectedNav, collapsed, mobileSidenav }) => {
   
   return (
     <Sider 

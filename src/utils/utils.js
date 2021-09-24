@@ -4,6 +4,7 @@ import { notification } from 'antd';
 import jwt from 'jsonwebtoken';
 import store from '../redux/store';
 import { onPageLoad } from '../redux/reducers/userReducer';
+import { toggleMobileSidenav } from '../redux/reducers/utilsReducer';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){
@@ -80,6 +81,8 @@ export const AdminRoute = ({ component: Component, ...rest }) => {
 
 export const onAppLoad = () => {
   const token = getToken();
+  const mobileSidenav = checkIfMobileScreen();
+  store.dispatch(toggleMobileSidenav(mobileSidenav));
   if(token) {
     const { roles, exp } = jwt.decode(token);
     if(roles && (exp * 1000) > Date.now() && isAdminLoggedin()) {

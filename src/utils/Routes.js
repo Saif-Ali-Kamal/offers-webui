@@ -10,6 +10,7 @@ import Offers from '../pages/admin/offers/Offers';
 
 import Home from '../pages/user/Home';
 import UserOffers from '../pages/user/UserOffers';
+import AddEditOffer from '../pages/admin/offers/AddEditOffer';
 
 const Routes = () => {
   return (
@@ -20,6 +21,8 @@ const Routes = () => {
         <Route path='/admin/signup' exact component={Signup} />
         <AdminRoute path='/admin/dashboard' exact component={Dashboard} />
         <AdminRoute path='/admin/offers' exact component={Offers} />
+        <AdminRoute path='/admin/offers/addOffer' exact component={() => <AddEditOffer type='add' />} />
+        <AdminRoute path='/admin/offers/editOffer' exact component={() => <AddEditOffer type='edit' />} />
         <Route path='/' exact component={() => <Redirect to={'/home'} />} />
         <Route path='/home' exact component={Home} />
         <Route path='/offers' exact component={UserOffers} />

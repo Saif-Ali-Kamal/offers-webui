@@ -19,8 +19,8 @@ const Topbar = ({ toggle }) => {
         </Avatar>
       </Col>
       <Col span={18} offset={1}>
-        <p style={{ marginBottom: '0' }}>{admin.name} {admin.roles.toString() === adminRoles.toString() ? '(Admin)' : `${adminRoles}`}</p>
-        <p style={{ margin: '0' }}>{admin.email}</p>
+        <p style={{ marginBottom: '0' }}>{admin?.name} {admin?.roles?.toString() === adminRoles?.toString() ? '(Admin)' : ''}</p>
+        <p style={{ margin: '0' }}>{admin?.email}</p>
       </Col>
     </Row>
     <Divider style={{ margin: '8px 0' }} />
@@ -32,7 +32,7 @@ const Topbar = ({ toggle }) => {
     <React.Fragment>
       <Header style={{ 
           background:'#fff', 
-          zIndex:'2', 
+          zIndex:'3', 
           boxShadow:'0px 2px 4px rgba(0, 0, 0, 0.25)', 
           padding:'0 24px',
           position:'sticky',

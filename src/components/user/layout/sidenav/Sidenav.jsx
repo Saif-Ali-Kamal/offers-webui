@@ -12,12 +12,10 @@ import ContactIcon from '../../../../icons/ContactIcon';
 
 const { Sider } = Layout;
 
-const Sidenav = ({ selectedNav, collapsed, closeSidenav }) => {
-
-  const mobileSidenav = useSelector(state => state.mobileSidenav);
+const Sidenav = ({ selectedNav, collapsed, mobileSidenav }) => {
   
   return (
-    mobileSidenav && <Sider 
+    <Sider 
       style={mobileSidenav && { zIndex: 2, position:'absolute', top:64, bottom:0, left:0 }} 
       width={200} trigger={null} 
       collapsible collapsed={collapsed} 
