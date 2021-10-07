@@ -9,7 +9,7 @@ export const userSignupAction = createAsyncThunk(
   async (userData) => {
     return userSignupService(userData).then(res => {
       notify('success', 'Signup success', res.message);
-      if(userData.roles === adminRoles){
+      if(userData.roles.toString() === adminRoles.toString()){
         history.push('/admin/signin')
       }
     }).catch(error => notify('error', 'Signup Error', error.message))
@@ -22,7 +22,7 @@ export const userSigninAction = createAsyncThunk(
     return userSigninService(userData).then(res => {
       const saveTokenData = saveToken(res.token);
       notify('success', 'Signin success', res.message);
-      if(userData.roles === adminRoles){
+      if(userData.roles.toString() === adminRoles.toString()){
         history.push('/admin/dashboard');
       }
       return saveTokenData;

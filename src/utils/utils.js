@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import store from '../redux/store';
 import { onPageLoad } from '../redux/reducers/userReducer';
 import { toggleMobileSidenav } from '../redux/reducers/utilsReducer';
+import { adminRoles } from './constant';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){
@@ -61,8 +62,9 @@ const isAdminLoggedin = () => {
   const token = getToken();
   if(token){
     const { roles, exp } = jwt.decode(token);
-    if(roles && (exp * 1000) > Date.now())
+    if(roles.toString() === adminRoles.toString() && (exp * 1000) > Date.now()){
       return true;
+    }
   }else {
     return false;
   }
@@ -84,13 +86,12 @@ export const onAppLoad = () => {
   const mobileSidenav = checkIfMobileScreen();
   store.dispatch(toggleMobileSidenav(mobileSidenav));
   if(token) {
-    const { roles, exp } = jwt.decode(token);
-    if(roles && (exp * 1000) > Date.now() && isAdminLoggedin()) {
+    if(isAdminLoggedin()) {
       const saveTokenData = saveToken(token);
       store.dispatch(onPageLoad(saveTokenData));
       return <Redirect to='/admin/dashboard' />
     } else {
-      localStorage.clear()
+      localStorage.clear();
       return <Redirect to='/' />
     }
   }

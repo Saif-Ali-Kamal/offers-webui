@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import SignupForm from '../../../components/auth/signupForm/SignupForm';
 import { userSignupAction } from '../../../redux/actions/userActions';
 import { adminRoles } from '../../../utils/constant';

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Col, Row } from "antd";
@@ -20,17 +20,6 @@ const AddEditOffer = ({ type }) => {
   }
 
   const handleEditOffer = (id, editedOffer) => {
-    // updateOffer(id, updatedOffer).then(({msg}) => {
-    //   notify('success', 'Offer updated successfully', msg);
-    //   offers.map(offer => {
-    //     if(offer.id === id) {
-    //       updatedOffer.map(changedOffer => {
-    //         return offer[changedOffer.propName] = changedOffer.value;
-    //       })
-    //     }
-    //     return offer
-    //   })
-    // }).catch(ex => notify('error', 'Error in updating offer', ex))
     const updatedOffer = { id, editedOffer };
     dispatch(updateOfferAction(updatedOffer));
   }
@@ -46,7 +35,6 @@ const AddEditOffer = ({ type }) => {
       <Row>
         <Col lg={{ span: 16, offset: 4 }} xs={{ span: 24, offset: 0 }}>
           <AddEditOfferForm
-            // initialvalues={offerClickedInfo}
             handleAddOffer={handleAddOffer}
             handleEditOffer={handleEditOffer}
             handleCancelOffer={handleCancelOffer} 

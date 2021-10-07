@@ -128,7 +128,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           <Input placeholder='Offer product full name' />
         </Form.Item>}
         <Form.Item name='type' label='Type' rules={[{ required: true, message: 'Please select the type of offer!' }]}>
-          <Select placeholder='Offer type' onChange={(e) => setType(e )}>
+          <Select placeholder='Offer type' onChange={(e) => setType(e)}>
             <Option value='deal'>Deal</Option>
             <Option value='coupon'>Coupon</Option>
           </Select>

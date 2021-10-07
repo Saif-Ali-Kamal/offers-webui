@@ -1,7 +1,6 @@
 import React from 'react';
 import { Menu, Layout } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
 import history from '../../../../utils/history';
 import OffersIcon from '../../../../icons/OffersIcon';
 import './sidenav.css';

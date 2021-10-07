@@ -19,6 +19,7 @@ export const offerSlice = createSlice({
     },
     [addOfferAction.fulfilled]: (state, action) => {
       state.status = success;
+      state.offerList.push(action.payload);
     },
     [addOfferAction.rejected]: (state) => {
       state.status = failed;
@@ -49,7 +50,13 @@ export const offerSlice = createSlice({
     },
     [updateOfferAction.fulfilled]: (state, action) => {
       state.status = success;
-      state.offerList = action.payload;
+      state.offerList = state.offerList.map(offer => {
+        if(offer.id === action.payload.id){
+          return action.payload;
+        }
+        return offer;
+      });
+      state.selectedOffer = {};
     },
     [updateOfferAction.rejected]: (state) => {
       state.status = failed;
@@ -59,7 +66,7 @@ export const offerSlice = createSlice({
     },
     [deleteOfferAction.fulfilled]: (state, action) => {
       state.status = success;
-      state.offerList = action.payload;
+      state.offerList = state.offerList.filter(offer => offer.id === action.payload);
     },
     [deleteOfferAction.rejected]: (state) => {
       state.status = failed;

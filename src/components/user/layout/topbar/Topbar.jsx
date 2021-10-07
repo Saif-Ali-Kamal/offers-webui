@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import { MenuOutlined, HomeOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import OffersIcon from '../../../../icons/OffersIcon';
 import CategoriesIcon from '../../../../icons/CategoriesIcon';

@@ -34,7 +34,7 @@ export const updateOfferService = (id, updateOffers) => {
   return new Promise((resolve, reject) => {
     api.patch(`/offer/getOffer/${id}`, updateOffers).then(res => {
       if(res.status === 200){
-        resolve({ msg: res.data.msg })
+        resolve({ msg: res.data.msg, offer: res.data.offer })
       }
     }).catch(ex => reject(ex))
   })
