@@ -27,7 +27,7 @@ export const getOfferByIdAction = createAsyncThunk(
   async (id) => {
     return getOfferByIdService(id).then(res => {
       notify('success', 'Offer fetched successfully', res.message);
-      return res.data;
+      return res.offer;
     }).catch(ex => notify('error', 'Error in fetching offer', ex));
   }
 );
@@ -37,7 +37,7 @@ export const updateOfferAction = createAsyncThunk(
   async (updatedOffer) => {
     return updateOfferService(updatedOffer).then(res => {
       notify('success', 'Offer updated successfully', res.message);
-      return getAllOffersAction();
+      return res.data;
     }).catch(ex => notify('error', 'Error in updating offer', ex));
   }
 );
@@ -47,7 +47,6 @@ export const deleteOfferAction = createAsyncThunk(
   async (id) => {
     return deleteOfferService(id).then(res => {
       notify('success', 'Offer deleted successfully', res.message);
-      // return getAllOffersAction();
       return id;
     }).catch(ex => notify('error', 'Error in deleting offer', ex));
   }

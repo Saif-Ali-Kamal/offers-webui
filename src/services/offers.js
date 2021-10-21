@@ -24,7 +24,7 @@ export const getOfferByIdService = (id) => {
   return new Promise((resolve, reject) => {
     api.get(`/offer/getOffer/${id}`).then(res => {
       if(res.status === 200){
-        resolve({ msg: res.data.message, offers: res.data })
+        resolve({ msg: res.data.message, offer: res.data.data })
       }
     }).catch(ex => reject(ex))
   })

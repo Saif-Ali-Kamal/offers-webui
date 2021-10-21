@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import PageLayout from '../../../components/admin/layout/PageLayout';
 import OffersTable from '../../../components/admin/offers/offersTable/OffersTable';
-import { deleteOfferAction, getAllOffersAction } from '../../../redux/actions/offerActions';
+import { deleteOfferAction, getAllOffersAction, getOfferByIdAction } from '../../../redux/actions/offerActions';
 
 const Offers = () => {
 
@@ -19,7 +19,9 @@ const Offers = () => {
     dispatch(getAllOffersAction());
   }
 
-  const handleGetOfferById = () => {}
+  const handleGetOfferById = (id) => {
+    dispatch(getOfferByIdAction(id));
+  }
 
   const handleDeleteOffer = (id) => {
     dispatch(deleteOfferAction(id));

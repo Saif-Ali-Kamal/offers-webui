@@ -17,6 +17,21 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
 
   const userId = useSelector(state => state.user.userData.userId);
 
+  const onPreview = async file => {
+    let src = file.thumbUrl;
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
+
   const formIntialValues = {
     title: initialvalues?.title,
     description: initialvalues?.description,
@@ -175,8 +190,12 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
             accept='.png, .jpg, .jpeg'
             multiple
             maxCount={2}
-            listType='picture'
+            listType='picture-card'
+            onPreview={onPreview}
             beforeUpload={Upload.LIST_IGNORE}
+            fileList={initialvalues?.image && form.getFieldValue('image')?.map(data => { 
+              return {thumbUrl: data}
+            })}
           >
             <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
             <p className='ant-upload-text'>Click or drag file to this area to upload</p>

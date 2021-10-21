@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Col, Row } from "antd";
 import PageLayout from "../../../components/admin/layout/PageLayout";
@@ -10,7 +10,8 @@ const AddEditOffer = ({ type }) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const selectedOffer = useSelector(state => state.offers.selectedOffer);
+  
   const handleCancelOffer = () => {
     history.push('/admin/offers');
   }
@@ -35,6 +36,7 @@ const AddEditOffer = ({ type }) => {
       <Row>
         <Col lg={{ span: 16, offset: 4 }} xs={{ span: 24, offset: 0 }}>
           <AddEditOfferForm
+            initialvalues={selectedOffer}
             handleAddOffer={handleAddOffer}
             handleEditOffer={handleEditOffer}
             handleCancelOffer={handleCancelOffer} 
