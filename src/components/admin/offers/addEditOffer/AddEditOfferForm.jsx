@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Input, Cascader, Select, DatePicker, Upload, Card, Button, Checkbox } from 'antd';
+import confirm from 'antd/lib/modal/confirm';
 import { UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { categoryOptions } from '../../../../utils/constant';
 import { useSelector } from 'react-redux';
 
-const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, handleEditOffer }) => {
+const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, handleEditOffer, formType }) => {
 
   const [form] = Form.useForm();
   const { Option } = Select;
@@ -14,6 +15,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
 
   const [productChecked, setProductChecked] = useState(false);
   const [type, setType] = useState('');
+  const [fileList, setFileList] = useState(initialvalues?.image || []);
 
   const userId = useSelector(state => state.user.userData.userId);
 
@@ -31,6 +33,22 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
     const imgWindow = window.open(src);
     imgWindow.document.write(image.outerHTML);
   };
+
+  const onRemove = (file) => {
+    return new Promise((resolve, reject) => {
+      confirm({
+          title: 'are you sure to remove this file?',
+          onOk: () => {
+            const filteredList = fileList.filter(image => image !== file.thumbUrl);
+            setFileList(filteredList);
+            resolve(true)
+          },
+          onCancel: () => {
+            reject(false)
+          }
+      })
+    })
+  }
 
   const formIntialValues = {
     title: initialvalues?.title,
@@ -51,7 +69,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
-      if(!initialvalues){
+      if(formType === 'add'){
         const offer = {
           title: values?.title,
           description: values?.description,
@@ -74,7 +92,6 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           like: 0,
           image: values?.image.fileList.map(file => file.thumbUrl)
         }
-        console.log(offer)
         handleAddOffer(offer);
       } else {
         let updatedOffer = [];
@@ -111,7 +128,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
         } if(formIntialValues?.image !== values?.image) {
           updatedOffer = [...updatedOffer, { propName: 'image', value: `${values.image}` }];
         }
-        handleEditOffer(initialvalues.id, updatedOffer);
+        handleEditOffer(initialvalues._id, updatedOffer);
       }
       handleCancelOffer();
     }) 
@@ -191,11 +208,13 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
             multiple
             maxCount={2}
             listType='picture-card'
-            onPreview={onPreview}
+            // onPreview={onPreview}
+            // onRemove={onRemove}
             beforeUpload={Upload.LIST_IGNORE}
-            fileList={initialvalues?.image && form.getFieldValue('image')?.map(data => { 
-              return {thumbUrl: data}
-            })}
+            // onChange={fileList => console.log(fileList)}
+            // fileList={fileList.map(data => { 
+            //   return {thumbUrl: data}
+            // })}
           >
             <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
             <p className='ant-upload-text'>Click or drag file to this area to upload</p>
@@ -205,7 +224,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
       </Form>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button type='primary' ghost onClick={handleCancelOffer}>Cancel</Button>
-        <Button type='primary' onClick={handleSubmit}>Add Offer</Button>
+        <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add Offer' : 'Save Offer'}</Button>
       </div>
     </Card>
   );

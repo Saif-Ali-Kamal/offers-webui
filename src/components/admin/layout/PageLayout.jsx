@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout, Breadcrumb, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux';
 import Sidenav from './sidenav/Sidenav';
 import Topbar from './topbar/Topbar';
 import { checkIfMobileScreen } from '../../../utils/utils';
-import { Link } from 'react-router-dom';
+import { loading } from '../../../utils/constant';
+import Loader from '../../common/Loader';
 
-const PageLayout = ({ children, selectedNav, crumbs = [], innerPage, title, route }) => {
+const PageLayout = ({ children, selectedNav, crumbs = [], innerPage, title, handleClick, status }) => {
 
   const [collapsed, setCollapsed] = useState(checkIfMobileScreen());
   const mobileSidenav = useSelector(state => state.utils.mobileSidenav);
@@ -24,6 +25,7 @@ const PageLayout = ({ children, selectedNav, crumbs = [], innerPage, title, rout
 
   return (
     <Layout style={{ height:'100vh' }}>
+      {status === loading && <Loader />}
       <Topbar toggle={() => {
         setCollapsed(!collapsed)} 
       }/>
@@ -44,10 +46,9 @@ const PageLayout = ({ children, selectedNav, crumbs = [], innerPage, title, rout
               flexDirection: 'row',
               alignItems: 'center', 
               padding: '8px 24px' }}>
-            <Link to={route}>
-              <ArrowLeftOutlined style={{ color: '#1DA57A' }} /> 
-              <span style={{ color: '#1DA57A' }}> Go back</span>
-            </Link>
+            <Button type='link' icon={<ArrowLeftOutlined />} onClick={handleClick}>
+              Go back
+            </Button>
             <h3 style={{ margin: '0 auto 0 30%' }}>{title}</h3>
           </Layout>}
           <Breadcrumb style={{ margin:'16px 0' }}>

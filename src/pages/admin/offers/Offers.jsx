@@ -7,20 +7,16 @@ import { deleteOfferAction, getAllOffersAction, getOfferByIdAction } from '../..
 
 const Offers = () => {
 
-  const offers = useSelector(state => state.offers.offerList);
+  const { offerList, status } = useSelector(state => state.offers);
   const dispatch = useDispatch();
   const history = useHistory();
   
   useEffect(() => {
-    handleGetAllOffers()
-  }, [dispatch])
+    handleGetAllOffers();
+  }, [])
 
   const handleGetAllOffers = () => {
     dispatch(getAllOffersAction());
-  }
-
-  const handleGetOfferById = (id) => {
-    dispatch(getOfferByIdAction(id));
   }
 
   const handleDeleteOffer = (id) => {
@@ -30,13 +26,18 @@ const Offers = () => {
   const handleOpenAddOffer = () => {
     history.push('/admin/offers/addOffer');
   }
-  
+
+  const handleOpenEditOffer = (id) => {
+    dispatch(getOfferByIdAction(id))
+      .then(() => history.push('/admin/offers/editOffer')); 
+  }
+
   return (
-    <PageLayout selectedNav='offers' crumbs={['Offers']}> 
+    <PageLayout selectedNav='offers' crumbs={['Offers']} status={status}> 
       <OffersTable 
-        offers={offers} 
-        setOfferClicked={handleGetOfferById} 
+        offers={offerList} 
         handleAddOfferVisible={handleOpenAddOffer}
+        handleEditOfferVisible={handleOpenEditOffer}
         handleDeleteOffer={handleDeleteOffer} />
     </PageLayout>
   );

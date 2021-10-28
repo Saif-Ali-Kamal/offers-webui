@@ -13,6 +13,11 @@ export const offerSlice = createSlice({
   name: 'offer',
   initialState,
   reducer:{},
+  reducers: {
+    clearSelectedOffer: (state) => {
+      state.selectedOffer = {};
+    }
+  },
   extraReducers: {
     [addOfferAction.pending]: (state) => {
       state.status = loading;
@@ -73,5 +78,7 @@ export const offerSlice = createSlice({
     }, 
   }
 });
+
+export const { clearSelectedOffer } = offerSlice.actions;
 
 export default offerSlice.reducer;

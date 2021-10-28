@@ -3,11 +3,10 @@ import { Card, Table, Button, Popconfirm, Tooltip } from 'antd';
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
 
-const OffersTable = ({ offers, handleAddOfferVisible, setOfferClicked, handleDeleteOffer }) => {
+const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, handleDeleteOffer }) => {
   
-  const handleUpateOffer = (value) => {
-    handleAddOfferVisible();
-    setOfferClicked(value);
+  const handleUpateOffer = (id) => {
+    handleEditOfferVisible(id);
   }
 
   const offerTableColumn = [
@@ -103,8 +102,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, setOfferClicked, handleDel
           <Button 
             type='primary' 
             onClick={handleAddOfferVisible}
+            icon={<PlusOutlined/>}
           >
-            <PlusOutlined/>Add offer
+            Add offer
           </Button>
         </h2>
         <Table 

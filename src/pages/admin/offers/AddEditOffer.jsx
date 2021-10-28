@@ -5,15 +5,17 @@ import { Col, Row } from "antd";
 import PageLayout from "../../../components/admin/layout/PageLayout";
 import { addOfferAction, updateOfferAction } from "../../../redux/actions/offerActions";
 import AddEditOfferForm from '../../../components/admin/offers/addEditOffer/AddEditOfferForm';
+import { clearSelectedOffer } from '../../../redux/reducers/offerReducer';
 
 const AddEditOffer = ({ type }) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectedOffer = useSelector(state => state.offers.selectedOffer);
+  const { selectedOffer, status } = useSelector(state => state.offers);
   
   const handleCancelOffer = () => {
-    history.push('/admin/offers');
+    dispatch(clearSelectedOffer())
+      // .then(() => history.push('/admin/offers'));
   }
 
   const handleAddOffer = (offer) => {
@@ -31,12 +33,14 @@ const AddEditOffer = ({ type }) => {
       crumbs={['Offers', type === 'add' ? 'Add Offer' : 'Edit Offer']} 
       innerPage
       title={type === 'add' ? 'Add Offer' : 'Edit Offer'}
-      route='/admin/offers'
+      handleClick={handleCancelOffer}
+      status={status}
     >
       <Row>
         <Col lg={{ span: 16, offset: 4 }} xs={{ span: 24, offset: 0 }}>
           <AddEditOfferForm
-            initialvalues={selectedOffer}
+            formType={type}
+            initialvalues={type === 'edit' ? selectedOffer : null}
             handleAddOffer={handleAddOffer}
             handleEditOffer={handleEditOffer}
             handleCancelOffer={handleCancelOffer} 

@@ -1,19 +1,27 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import SignupForm from '../../../components/auth/signupForm/SignupForm';
 import { userSignupAction } from '../../../redux/actions/userActions';
 import { adminRoles } from '../../../utils/constant';
+import { notify } from '../../../utils/utils';
 import './signup.css';
 
 const Signup = () => {
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   // const loading = useSelector(state => state.user.)
 
   const handleAdminSignup = (name, email, password) => {
     const userData = { name, email, password, roles: adminRoles };
-    dispatch(userSignupAction(userData));
+    dispatch(userSignupAction(userData)).then((res) => {
+      if(userData.roles.toString() === adminRoles.toString()){
+        history.push('/admin/signin')
+        notify('success', 'Signup success', res.message);
+      }
+    });
   }
 
   return (

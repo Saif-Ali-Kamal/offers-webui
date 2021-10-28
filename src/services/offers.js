@@ -30,10 +30,11 @@ export const getOfferByIdService = (id) => {
   })
 }
 
-export const updateOfferService = (id, updateOffers) => {
+export const updateOfferService = ({ id, editedOffer }) => {
   return new Promise((resolve, reject) => {
-    api.patch(`/offer/getOffer/${id}`, updateOffers).then(res => {
+    api.patch(`/offer/updateOffer/${id}`, editedOffer).then(res => {
       if(res.status === 200){
+        console.log(res)
         resolve({ msg: res.data.msg, offer: res.data.offer })
       }
     }).catch(ex => reject(ex))
