@@ -16,8 +16,9 @@ const Sidenav = ({ selectedNav, collapsed, mobileSidenav }) => {
       trigger={null} 
       collapsible 
       collapsed={collapsed} 
+      theme='light'
       collapsedWidth={mobileSidenav ? 0 : 80}>
-      <Menu theme='dark' mode='inline' defaultSelectedKeys={selectedNav} >
+      <Menu theme='light' mode='inline' defaultSelectedKeys={selectedNav} >
         <Menu.Item key='dashboard' icon={ <HomeOutlined /> } 
           onClick={() => history.push('/admin/dashboard')}> 
           Dashboard
