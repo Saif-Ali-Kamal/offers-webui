@@ -14,8 +14,8 @@ const AddEditOffer = ({ type }) => {
   const { selectedOffer, status } = useSelector(state => state.offers);
   
   const handleCancelOffer = () => {
-    dispatch(clearSelectedOffer())
-      // .then(() => history.push('/admin/offers'));
+    dispatch(clearSelectedOffer());
+    history.push('/admin/offers');
   }
 
   const handleAddOffer = (offer) => {

@@ -13,6 +13,7 @@ const Sidenav = ({ selectedNav, collapsed, mobileSidenav }) => {
     <Sider 
       style={mobileSidenav && { zIndex: 2, position:'absolute', top:64, bottom:0, left:0 }} 
       width={200} 
+      theme='light'
       trigger={null} 
       collapsible 
       collapsed={collapsed} 
