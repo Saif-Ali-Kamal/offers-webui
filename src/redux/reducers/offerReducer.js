@@ -55,12 +55,6 @@ export const offerSlice = createSlice({
     },
     [updateOfferAction.fulfilled]: (state, action) => {
       state.status = success;
-      state.offerList = state.offerList.map(offer => {
-        if(offer.id === action.payload.id){
-          return action.payload;
-        }
-        return offer;
-      });
       state.selectedOffer = {};
     },
     [updateOfferAction.rejected]: (state) => {

@@ -16,8 +16,7 @@ const Sidenav = ({ selectedNav, collapsed, mobileSidenav }) => {
       theme='light'
       trigger={null} 
       collapsible 
-      collapsed={collapsed} 
-      theme='light'
+      collapsed={collapsed}
       collapsedWidth={mobileSidenav ? 0 : 80}>
       <Menu theme='light' mode='inline' defaultSelectedKeys={selectedNav} >
         <Menu.Item key='dashboard' icon={ <HomeOutlined /> } 

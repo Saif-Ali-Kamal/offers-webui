@@ -37,8 +37,7 @@ export const updateOfferAction = createAsyncThunk(
   async (updatedOffer) => {
     return updateOfferService(updatedOffer).then(res => {
       notify('success', 'Offer updated successfully', res.message);
-      console.log(res.data);
-      return res.data;
+      return updatedOffer;
     }).catch(ex => notify('error', 'Error in updating offer', ex));
   }
 );
