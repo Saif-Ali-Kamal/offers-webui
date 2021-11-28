@@ -39,12 +39,12 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
       confirm({
           title: 'are you sure to remove this file?',
           onOk: () => {
-            const filteredList = fileList.filter(image => image !== file.thumbUrl);
+            const filteredList = fileList.filter(image => image === file.thumbUrl);
             setFileList(filteredList);
-            resolve(true)
+            resolve(true);
           },
           onCancel: () => {
-            reject(false)
+            reject(false);
           }
       })
     })
@@ -67,11 +67,9 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
     image: initialvalues?.image
   }
   
-  console.log(initialvalues)
   const handleSubmit = () => {
     form.validateFields().then(values => {
       if(formType === 'add'){
-        console.log(values)
         const offer = {
           title: values?.title,
           description: values?.description,
@@ -92,11 +90,10 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           link: values?.link,
           click: 0,
           like: 0,
-          image: values?.image.fileList.map(file => file.thumbUrl)
+          image: values?.image.fileList
         }
         handleAddOffer(offer);
       } else {
-        console.log(values)
         let updatedOffer = [];
         if(formIntialValues?.title !== values?.title) {
           updatedOffer = [...updatedOffer, { propName: 'title', value: `${values.title}` }];
@@ -129,9 +126,8 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
         } if(formIntialValues?.link !== values?.link) {
           updatedOffer = [...updatedOffer, { propName: 'link', value: `${values.link}` }];
         } if(formIntialValues?.image[0] !== values?.image?.fileList[0]?.thumbUrl || formIntialValues?.image[1] !== values?.image?.fileList[1]?.thumbUrl) {
-          updatedOffer = [...updatedOffer, { propName: 'image', value: `${values?.image?.fileList?.map(file => file.thumbUrl)}` }];
-        // } if(formIntialValues?.image[1] !== values?.image?.fileList[1]?.thumbUrl) {
-        //   updatedOffer = [...updatedOffer, { propName: 'image', value: `${values?.image?.fileList[1]?.thumbUrl}` }];
+          console.log({in: formIntialValues.image, value: fileList})
+          updatedOffer = [...updatedOffer, { propName: 'image', value: values?.image?.fileList?.map(file => file.thumbUrl) }];
         }
         handleEditOffer(initialvalues._id, updatedOffer);
       }

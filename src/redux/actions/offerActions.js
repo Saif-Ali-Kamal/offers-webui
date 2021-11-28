@@ -37,7 +37,6 @@ export const updateOfferAction = createAsyncThunk(
   async (updatedOffer) => {
     return updateOfferService(updatedOffer).then(res => {
       notify('success', 'Offer updated successfully', res.message);
-      return updatedOffer;
     }).catch(ex => notify('error', 'Error in updating offer', ex));
   }
 );
@@ -47,7 +46,6 @@ export const deleteOfferAction = createAsyncThunk(
   async (id) => {
     return deleteOfferService(id).then(res => {
       notify('success', 'Offer deleted successfully', res.message);
-      return id;
     }).catch(ex => notify('error', 'Error in deleting offer', ex));
   }
 );

@@ -53,7 +53,7 @@ export const offerSlice = createSlice({
     [updateOfferAction.pending]: (state) => {
       state.status = loading;
     },
-    [updateOfferAction.fulfilled]: (state, action) => {
+    [updateOfferAction.fulfilled]: (state) => {
       state.status = success;
       state.selectedOffer = {};
     },
@@ -63,9 +63,8 @@ export const offerSlice = createSlice({
     [deleteOfferAction.pending]: (state) => {
       state.status = loading;
     },
-    [deleteOfferAction.fulfilled]: (state, action) => {
+    [deleteOfferAction.fulfilled]: (state) => {
       state.status = success;
-      state.offerList = state.offerList.filter(offer => offer.id === action.payload);
     },
     [deleteOfferAction.rejected]: (state) => {
       state.status = failed;

@@ -20,7 +20,8 @@ const Offers = () => {
   }
 
   const handleDeleteOffer = (id) => {
-    dispatch(deleteOfferAction(id));
+    dispatch(deleteOfferAction(id))
+      .then(() => handleGetAllOffers());
   }
 
   const handleOpenAddOffer = () => {
