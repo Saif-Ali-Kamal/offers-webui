@@ -88,9 +88,10 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           country: values?.country,
           tags: values?.tags,
           link: values?.link,
+          status: values?.date[0] > moment(new Date()) ? 'paused' : 'active',
           click: 0,
           like: 0,
-          image: values?.image.fileList
+          image: values?.image.fileList.map(file => file.thumbUrl)
         }
         handleAddOffer(offer);
       } else {
@@ -125,8 +126,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           updatedOffer = [...updatedOffer, { propName: 'tags', value: `${values.tags}` }];
         } if(formIntialValues?.link !== values?.link) {
           updatedOffer = [...updatedOffer, { propName: 'link', value: `${values.link}` }];
-        } if(formIntialValues?.image[0] !== values?.image?.fileList[0]?.thumbUrl || formIntialValues?.image[1] !== values?.image?.fileList[1]?.thumbUrl) {
-          console.log({in: formIntialValues.image, value: fileList})
+        } if(values?.image?.file && (formIntialValues?.image[0] !== values?.image?.fileList[0]?.thumbUrl || formIntialValues?.image[1] !== values?.image?.fileList[1]?.thumbUrl)) {
           updatedOffer = [...updatedOffer, { propName: 'image', value: values?.image?.fileList?.map(file => file.thumbUrl) }];
         }
         handleEditOffer(initialvalues._id, updatedOffer);

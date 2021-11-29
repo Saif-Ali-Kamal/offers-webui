@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Table, Button, Popconfirm, Tooltip } from 'antd';
-import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, PauseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
 
 const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, handleDeleteOffer }) => {
@@ -62,6 +62,24 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       width: '0.1%',
       render: (value) => {
         return formatDateTime(value);
+      }
+    },{
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      width: '0.1%',
+      render: (value) => {
+        return value === 'active' ? 
+          <Tooltip title='Active' color='#1DA57A'> 
+            <CheckCircleOutlined style={{ color: '#1DA57A', fontSize: '24px' }} />
+          </Tooltip> : 
+          value === 'paused' ? 
+          <Tooltip title='Paused' color='#808080'>
+            <PauseCircleOutlined style={{ color: '#808080', fontSize: '24px' }} />
+          </Tooltip> :
+          <Tooltip title='Expired' color='#FF4D4F'> 
+            <ClockCircleOutlined style={{ color: '#FF4D4F', fontSize: '24px' }} />
+          </Tooltip> ;
       }
     },{
       title: 'Clicks',

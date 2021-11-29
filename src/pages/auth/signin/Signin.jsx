@@ -15,7 +15,7 @@ const Signin = () => {
   const handleAdminSignin = (email, password) => {
     const userData = { email, password, roles: adminRoles };
     dispatch(userSigninAction(userData)).then((res) => {
-      if(userData.roles.toString() === adminRoles.toString() && res.payload.roles.toString() === adminRoles.toString()){
+      if(userData?.roles?.toString() === adminRoles?.toString() && res?.payload?.roles?.toString() === adminRoles?.toString()){
         history.push('/admin/dashboard');
         notify('success', 'Signin success', res.message);
       }
