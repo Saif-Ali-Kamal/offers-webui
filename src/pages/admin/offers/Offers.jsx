@@ -34,7 +34,7 @@ const Offers = () => {
   }
 
   return (
-    <PageLayout selectedNav='offers' crumbs={['Offers']} status={status}> 
+    <PageLayout selectedNav='offers' crumbs={[{ text: 'Offers' }]} status={status}> 
       <OffersTable 
         offers={offerList} 
         handleAddOfferVisible={handleOpenAddOffer}

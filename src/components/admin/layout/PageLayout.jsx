@@ -52,9 +52,14 @@ const PageLayout = ({ children, selectedNav, crumbs = [], innerPage, title, hand
             <h3 style={{ margin: '0 auto 0 30%' }}>{title}</h3>
           </Layout>}
           <Breadcrumb style={{ margin:'16px 0' }}>
-            <Breadcrumb.Item href='/admin '>Admin</Breadcrumb.Item>
-            {crumbs.map(crumb => 
-              <Breadcrumb.Item key={crumb}>{crumb}</Breadcrumb.Item>)}
+            <Breadcrumb.Item href='/admin'>Admin</Breadcrumb.Item>
+            {crumbs.map(crumb => {
+              if(crumb?.link){
+                return <Breadcrumb.Item key={crumb} href={crumb?.link}>{crumb.text}</Breadcrumb.Item>
+              } else {
+                return <Breadcrumb.Item key={crumb}>{crumb.text}</Breadcrumb.Item>
+              }
+            })}
           </Breadcrumb>
           {children}
         </Layout>

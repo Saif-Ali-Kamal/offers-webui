@@ -30,7 +30,9 @@ const AddEditOffer = ({ type }) => {
   return (
     <PageLayout 
       selectedNav='offers' 
-      crumbs={['Offers', type === 'add' ? 'Add Offer' : 'Edit Offer']} 
+      crumbs={[{ text: 'Offers', link: '/admin/offers' }, 
+        type === 'add' ? 
+        { text: 'Add Offer' } : { text: 'Edit Offer' }]} 
       innerPage
       title={type === 'add' ? 'Add Offer' : 'Edit Offer'}
       handleClick={handleCancelOffer}

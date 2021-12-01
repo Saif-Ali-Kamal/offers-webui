@@ -4,7 +4,7 @@ import PageLayout from '../../../components/admin/layout/PageLayout';
 
 const Dashboard = () => {
   return (
-    <PageLayout selectedNav='dashboard' crumbs={['Dashboard']}>
+    <PageLayout selectedNav='dashboard' crumbs={[{ text: 'Dashboard' }]}>
       <Row gutter={[16, 24]}>
         <Col lg={{ span:8 }} xs={{ span: 24 }}>
           <Card>

@@ -173,7 +173,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
             <Option value='app'>Mobile App Only</Option>
             <Option value='android'>Android App only</Option>
             <Option value='ios'>IOS App only</Option>
-            <Option value='inStore'>In Stores</Option>
+            <Option value='store'>In Stores</Option>
           </Select>
         </Form.Item>
         <Form.Item name='discount' label='Discount' rules={[{ required: true, message: 'Please input the offer discount!' }]}>

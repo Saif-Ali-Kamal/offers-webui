@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Table, Button, Popconfirm, Tooltip } from 'antd';
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, PauseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
+import OfferDetails from './OfferDetails';
 
 const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, handleDeleteOffer }) => {
   
@@ -20,7 +21,11 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'category',
       render: (value) => {
         return capitalizeFirstLetter(value);
-      }
+      },
+      filters: [
+        { text: 'vehicle & accessories', value: 'vehicle' },
+        { text: 'vehicle', value: 'vehicle' }
+      ]
     },{
       title: 'Subcategory',
       key: 'subcategory',
@@ -28,7 +33,11 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       width: '0.1%',
       render: (value) => {
         return capitalizeFirstLetter(value);
-      }
+      },
+      filters: [
+        { text: 'vehicle & accessories', value: 'vehicle' },
+        { text: 'vehicle', value: 'vehicle' }
+      ]
     },{
       title: 'Store',
       key: 'store',
@@ -36,7 +45,39 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       width: '0.1%',
       render: (value) => {
         return capitalizeFirstLetter(value);
-      }
+      },
+      filters: [
+        { text: 'Amazon', value: 'vehicle' },
+        { text: 'vehicle', value: 'vehicle' }
+      ]
+    },{
+      title: 'Type',
+      key: 'type',
+      dataIndex: 'type',
+      width: '0.1%',
+      render: (value) => {
+        return capitalizeFirstLetter(value);
+      },
+      filters: [
+        { text: 'Deal', value: 'deal' },
+        { text: 'Coupon', value: 'coupon' }
+      ]
+    },{
+      title: 'Mode',
+      key: 'mode',
+      dataIndex: 'mode',
+      width: '0.1%',
+      render: (value) => {
+        return capitalizeFirstLetter(value);
+      },
+      filters: [
+        { text: 'Online', value: 'online' },
+        { text: 'Website Only', value: 'website' },
+        { text: 'Mobile App Only', value: 'app' },
+        { text: 'Android Only', value: 'android' },
+        { text: 'IOS Only', value: 'ios' },
+        { text: 'In Stores', value: 'store' }
+      ]
     },{
       title: 'Discount',
       key: 'discount',
@@ -46,6 +87,11 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       title: 'Code',
       key: 'code',
       dataIndex: 'code',
+      width: '0.1%'
+    },{
+      title: 'Creator',
+      key: 'creator',
+      dataIndex: 'creator',
       width: '0.1%'
     },{
       title: 'Starts',
@@ -80,7 +126,12 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
           <Tooltip title='Expired' color='#FF4D4F'> 
             <ClockCircleOutlined style={{ color: '#FF4D4F', fontSize: '24px' }} />
           </Tooltip> ;
-      }
+      },
+      filters: [
+        { text: 'Active', value: 'active' },
+        { text: 'Paused', value: 'paused' },
+        { text: 'Expired', value: 'expired' }
+      ]
     },{
       title: 'Clicks',
       key: 'click',
@@ -131,7 +182,10 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
           dataSource={offers} 
           bordered 
           pagination={true} 
-          scroll={{ x: 1000 }} 
+          scroll={{ x: 1000 }}
+          expandable={{
+            expandedRowRender: record => <OfferDetails record={record} />
+          }}
         />
       </Card>
     </React.Fragment>
