@@ -1,12 +1,16 @@
 import React from 'react';
 import { Col, Row } from 'antd';
+import OfferCard from './OfferCard';
  
-const OfferList = ({ offers }) => {
+const OfferList = ({ offerList }) => {
+  console.log(offerList)
   return(
-    <Row>
-      <Col lg={{ span: 10 }}>
-        
-      </Col>
+    <Row gutter={[16, 16]}>
+      {offerList.map(offer => {
+        return <Col key={offer._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 6 }} xxl={{ span: 3 }}>
+          <OfferCard offer={offer} />
+        </Col>
+      })}
     </Row>
   );
 }

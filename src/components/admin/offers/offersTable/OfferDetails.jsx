@@ -5,10 +5,10 @@ const OfferDetails = ({ record }) => {
   return(
     <Row gutter={[8, 8]}>
       {Object.entries(record).map(([key, value]) => {
-        if(key === 'image'){
+        if(record.image && key === 'image' && value.length > 0){
           return <>
-            <Image src={value[0]} />
-            <Image src={value[1]} />
+            {value[0] && <Image src={value[0]} />}
+            {value[1] && <Image src={value[1]} />}
           </>
         }
         return <Col lg={{ span: 12 }}>

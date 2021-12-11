@@ -167,7 +167,7 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
   return(
     <React.Fragment>
       <Card>
-        <h2 style={{ display:'flex', justifyContent:'space-between' }}>Offers table
+        <h2 style={{ display:'flex', justifyContent:'space-between' }}>Offers
           <Button 
             type='primary' 
             onClick={handleAddOfferVisible}
@@ -183,6 +183,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
           bordered 
           pagination={true} 
           scroll={{ x: 1000 }}
+          rowSelection={{
+            
+          }}
           expandable={{
             expandedRowRender: record => <OfferDetails record={record} />
           }}
