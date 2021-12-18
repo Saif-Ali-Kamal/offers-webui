@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userSigninService, userSignupService } from '../../services/users';
-import history from '../../utils/history';
 import { notify, saveToken } from '../../utils/utils';
-import { adminRoles } from '../../utils/constant';
 
 export const userSignupAction = createAsyncThunk(
   'user/userSignupAction',
