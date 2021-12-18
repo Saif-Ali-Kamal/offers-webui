@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../utils/utils';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://offerss.herokuapp.com',
   headers: {
     Authorization: `Bearer ${getToken()}`
   }
