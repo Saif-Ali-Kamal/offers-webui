@@ -3,7 +3,7 @@ import { Avatar, Button, Divider, Layout, Popover, Row, Col } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { userLogout } from '../../../../utils/utils';
-import { adminRoles, superAdminRoles } from '../../../../utils/constant';
+import { roles } from '../../../../utils/constant';
 
 const { Header } = Layout
 
@@ -20,7 +20,7 @@ const Topbar = ({ toggle }) => {
       </Col>
       <Col span={18} offset={1}>
         <p style={{ marginBottom: '0' }}>
-          {admin?.name} {admin?.roles?.toString() === superAdminRoles.toString() ? '(Super Admin)' : admin?.roles?.toString() === adminRoles.toString() ? '(Admin)' : ''}</p>
+          {admin?.name} {admin?.role === roles.superAdmin ? '(Super Admin)' : admin?.role === roles.admin ? '(Admin)' : ''}</p>
         <p style={{ margin: '0' }}>{admin?.email}</p>
       </Col>
     </Row>

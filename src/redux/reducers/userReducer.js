@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { failed, loading, success } from '../../utils/constant';
-import { userSigninAction, userSignupAction } from '../actions/userActions';
+import { getUserByIdAction, userSigninAction, userSignupAction } from '../actions/userActions';
 
 const initialState = {
   userData: {},
@@ -38,6 +38,15 @@ export const userSlice = createSlice({
       state.userData = action.payload;
     },
     [userSigninAction.rejected]: (state) => {
+      state.status = failed;
+    },
+    [getUserByIdAction.pending]: (state) => {
+      state.status = loading;
+    },
+    [getUserByIdAction.fulfilled]: (state) => {
+      state.status = success;
+    },
+    [getUserByIdAction.rejected]: (state) => {
       state.status = failed;
     }
   }

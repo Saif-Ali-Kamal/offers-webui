@@ -21,3 +21,13 @@ export const userSigninService = (userConfig) => {
     }).catch(ex => reject(ex))
   })
 }
+
+export const getUserByIdService = (id) => {
+  return new Promise((resolve, reject) => {
+    api.get(`/offer/getUser/${id}`).then(res => {
+      if(res.status === 200){
+        resolve({ msg: res.data.message, offer: res.data.data })
+      }
+    }).catch(ex => reject(ex))
+  })
+}

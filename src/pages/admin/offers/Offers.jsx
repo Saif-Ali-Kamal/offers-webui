@@ -8,6 +8,7 @@ import { deleteOfferAction, getAllOffersAction, getOfferByIdAction } from '../..
 const Offers = () => {
 
   const { offerList, status } = useSelector(state => state.offers);
+  const { userData } = useSelector(state => state.user)
   const dispatch = useDispatch();
   const history = useHistory();
   
@@ -36,10 +37,12 @@ const Offers = () => {
   return (
     <PageLayout selectedNav='offers' crumbs={[{ text: 'Offers' }]} status={status}> 
       <OffersTable 
-        offers={offerList} 
+        offers={offerList}
+        user={userData}
         handleAddOfferVisible={handleOpenAddOffer}
         handleEditOfferVisible={handleOpenEditOffer}
-        handleDeleteOffer={handleDeleteOffer} />
+        handleDeleteOffer={handleDeleteOffer}
+      />
     </PageLayout>
   );
 }

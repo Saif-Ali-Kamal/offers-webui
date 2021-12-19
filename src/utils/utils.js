@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import store from '../redux/store';
 import { onPageLoad } from '../redux/reducers/userReducer';
 import { toggleMobileSidenav } from '../redux/reducers/utilsReducer';
-import { adminRoles } from './constant';
+import { roles } from './constant';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){
@@ -20,14 +20,14 @@ export const notify = (type, title, msg, duration) => {
 }
 
 export const saveToken = (token) => {
-  const { userId, name, email, roles, exp } = jwt.decode(token);
+  const { userId, name, email, role, exp } = jwt.decode(token);
   if(token && (exp * 1000) > Date.now()){
     localStorage.setItem('token', token);
     localStorage.setItem('id', userId);
     localStorage.setItem('name', name);
     localStorage.setItem('email', email);
-    localStorage.setItem('roles', roles);
-    return { userId, name, email, roles }
+    localStorage.setItem('role', role);
+    return { userId, name, email, role }
   }else{
     localStorage.clear();
   }
@@ -61,8 +61,8 @@ export const capitalizeFirstLetter = (text) => {
 const isAdminLoggedin = () => {
   const token = getToken();
   if(token){
-    const { roles, exp } = jwt.decode(token);
-    if(roles.toString() === adminRoles.toString() && (exp * 1000) > Date.now()){
+    const { role, exp } = jwt.decode(token);
+    if(role === roles.admin && (exp * 1000) > Date.now()){
       return true;
     }
   }else {
@@ -70,11 +70,22 @@ const isAdminLoggedin = () => {
   }
 }
 
+const isSuperAdminLoggedin = () => {
+  const token = getToken();
+  if(token){
+    const { role, exp } = jwt.decode(token);
+    if(role === roles.superAdmin && (exp * 1000) > Date.now()){
+      return true;
+    }
+  }else {
+    return false;
+  }
+}
 
 export const AdminRoute = ({ component: Component, ...rest }) => {
   return (
     <Route {...rest} render={props => (
-      isAdminLoggedin() ? 
+      (isAdminLoggedin() || isSuperAdminLoggedin()) ? 
         <Component {...props} /> :
         <Redirect to='/admin/signin' /> 
     )} />
@@ -86,7 +97,7 @@ export const onAppLoad = () => {
   const mobileSidenav = checkIfMobileScreen();
   store.dispatch(toggleMobileSidenav(mobileSidenav));
   if(token) {
-    if(isAdminLoggedin()) {
+    if(isAdminLoggedin() || isSuperAdminLoggedin()) {
       const saveTokenData = saveToken(token);
       store.dispatch(onPageLoad(saveTokenData));
       return <Redirect to='/admin/dashboard' />

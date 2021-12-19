@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { userSigninService, userSignupService } from '../../services/users';
+import { userSigninService, userSignupService, getUserByIdService } from '../../services/users';
 import { notify, saveToken } from '../../utils/utils';
 
 export const userSignupAction = createAsyncThunk(
@@ -18,5 +18,15 @@ export const userSigninAction = createAsyncThunk(
       const saveTokenData = saveToken(res.token);
       return saveTokenData;
     }).catch(error => notify('error', 'Signin Error', error.message))
+  }
+);
+
+export const getUserByIdAction = createAsyncThunk(
+  'offer/getUserByIdAction',
+  async (id) => {
+    return getUserByIdService(id).then(res => {
+      notify('success', 'User fetched successfully', res.message);
+      return res.user;
+    }).catch(ex => notify('error', 'Error in fetching user', ex));
   }
 );

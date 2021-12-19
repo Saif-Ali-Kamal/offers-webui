@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import SignupForm from '../../../components/auth/signupForm/SignupForm';
 import { userSignupAction } from '../../../redux/actions/userActions';
-import { adminRoles } from '../../../utils/constant';
+import { roles } from '../../../utils/constant';
 import { notify } from '../../../utils/utils';
 import './signup.css';
 
@@ -15,9 +15,9 @@ const Signup = () => {
   // const loading = useSelector(state => state.user.)
 
   const handleAdminSignup = (name, email, password) => {
-    const userData = { name, email, password, roles: adminRoles };
+    const userData = { name, email, password, role: roles.admin };
     dispatch(userSignupAction(userData)).then((res) => {
-      if(userData.roles.toString() === adminRoles.toString()){
+      if(userData.role === roles.admin){
         history.push('/admin/signin')
         notify('success', 'Signup success', res.message);
       }

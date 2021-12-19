@@ -65,11 +65,11 @@ export const categoryOptions = [
   ]},
 ]
 
-export const userRoles = ['user'];
-
-export const adminRoles = ['admin', 'user'];
-
-export const superAdminRoles = ['superAdmin', 'admin', 'user'];
+export const roles = {
+  superAdmin: 'SUPER_ADMIN',
+  admin: 'ADMIN',
+  user: 'USER'
+}
 
 export const loading = 'LOADING';
 

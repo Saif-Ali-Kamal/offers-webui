@@ -3,8 +3,9 @@ import { Card, Table, Button, Popconfirm, Tooltip } from 'antd';
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, PauseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
 import OfferDetails from './OfferDetails';
+import { roles } from '../../../../utils/constant';
 
-const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, handleDeleteOffer }) => {
+const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisible, handleDeleteOffer }) => {
   
   const handleUpateOffer = (id) => {
     handleEditOfferVisible(id);
@@ -20,7 +21,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       key: 'category',
       dataIndex: 'category',
       render: (value) => {
-        return capitalizeFirstLetter(value);
+        if(value){
+          return capitalizeFirstLetter(value);
+        }
       },
       filters: [
         { text: 'vehicle & accessories', value: 'vehicle' },
@@ -32,7 +35,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'subcategory',
       width: '0.1%',
       render: (value) => {
-        return capitalizeFirstLetter(value);
+        if(value){
+          return capitalizeFirstLetter(value);
+        }
       },
       filters: [
         { text: 'vehicle & accessories', value: 'vehicle' },
@@ -44,7 +49,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'store',
       width: '0.1%',
       render: (value) => {
-        return capitalizeFirstLetter(value);
+        if(value){
+          return capitalizeFirstLetter(value);
+        }
       },
       filters: [
         { text: 'Amazon', value: 'vehicle' },
@@ -56,7 +63,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'type',
       width: '0.1%',
       render: (value) => {
-        return capitalizeFirstLetter(value);
+        if(value){
+          return capitalizeFirstLetter(value);
+        }
       },
       filters: [
         { text: 'Deal', value: 'deal' },
@@ -68,7 +77,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'mode',
       width: '0.1%',
       render: (value) => {
-        return capitalizeFirstLetter(value);
+        if(value){
+          return capitalizeFirstLetter(value);
+        }
       },
       filters: [
         { text: 'Online', value: 'online' },
@@ -88,7 +99,7 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       key: 'code',
       dataIndex: 'code',
       width: '0.1%'
-    },{
+    },user.role === roles.superAdmin && {
       title: 'Creator',
       key: 'creator',
       dataIndex: 'creator',
@@ -99,7 +110,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'start',
       width: '0.1%',
       render: (value) => {
-        return formatDateTime(value);
+        if(value){
+          return formatDateTime(value);
+        }
       }
     },{
       title: 'Ends',
@@ -107,7 +120,9 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
       dataIndex: 'end',
       width: '0.1%',
       render: (value) => {
-        return formatDateTime(value);
+        if(value){
+          return formatDateTime(value);
+        }
       }
     },{
       title: 'Status',
@@ -177,7 +192,7 @@ const OffersTable = ({ offers, handleAddOfferVisible, handleEditOfferVisible, ha
           </Button>
         </h2>
         <Table 
-          rowKey={record => record._id}
+          rowKey={record => record?._id}
           columns={offerTableColumn} 
           dataSource={offers} 
           bordered 

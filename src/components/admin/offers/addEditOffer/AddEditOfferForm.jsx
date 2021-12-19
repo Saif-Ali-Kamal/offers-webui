@@ -13,7 +13,8 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
   const { RangePicker } = DatePicker;
   const { Dragger } = Upload;
 
-  const [productChecked, setProductChecked] = useState(false);
+  const [productChecked, setProductChecked] = useState(initialvalues?.product ? true : false);
+  const [offerType, setOfferType] = useState(initialvalues?.type);
   const [fileList, setFileList] = useState(initialvalues?.image || []);
 
   const userId = useSelector(state => state.user.userData.userId);
@@ -160,7 +161,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           <Input placeholder='Offer product full name' />
         </Form.Item>}
         <Form.Item name='type' label='Type' rules={[{ required: true, message: 'Please select the type of offer!' }]}>
-          <Select placeholder='Offer type'>
+          <Select placeholder='Offer type' onChange={e => setOfferType(e)}>
             <Option value='deal'>Deal</Option>
             <Option value='coupon'>Coupon</Option>
           </Select>
@@ -178,7 +179,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
         <Form.Item name='discount' label='Discount' rules={[{ required: true, message: 'Please input the offer discount!' }]}>
           <Input placeholder='Offer discount'/>
         </Form.Item>
-        {(form.getFieldValue('type') === 'coupon' || formIntialValues.type === 'coupon') && <Form.Item name='code' label='Code' rules={[{ required: true, message: 'Please input the offer discount!' }]}>
+        {(offerType === 'coupon' || formIntialValues?.type === 'coupon') && <Form.Item name='code' label='Code' rules={[{ required: true, message: 'Please input the offer discount!' }]}>
           <Input placeholder='Offer code'/>
         </Form.Item>}
         <Form.Item name='date' label='Date' rules={[{ required: true, message: 'Please select the offer Date!' }]}>

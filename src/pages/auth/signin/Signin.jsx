@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import SigninForm from '../../../components/auth/signinForm/SigninForm';
 import { userSigninAction } from '../../../redux/actions/userActions';
-import { adminRoles } from '../../../utils/constant';
+import { roles } from '../../../utils/constant';
 import { notify } from '../../../utils/utils';
 import './signin.css';
 
@@ -13,9 +13,9 @@ const Signin = () => {
   const history = useHistory();
   
   const handleAdminSignin = (email, password) => {
-    const userData = { email, password, roles: adminRoles };
+    const userData = { email, password };
     dispatch(userSigninAction(userData)).then((res) => {
-      if(userData?.roles?.toString() === adminRoles?.toString() && res?.payload?.roles?.toString() === adminRoles?.toString()){
+      if(res?.payload?.role === roles.admin || res?.payload?.role === roles.superAdmin){
         history.push('/admin/dashboard');
         notify('success', 'Signin success', res.message);
       }
