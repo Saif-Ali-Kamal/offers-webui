@@ -82,16 +82,13 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           discount: values?.discount,
           code: values?.code,
           creator: userId,
-          createdAt: moment(new Date()),
           start: values?.date[0],
           end: values?.date[1],
           country: values?.country,
           tags: values?.tags,
           link: values?.link,
           status: values?.date[0] > moment(new Date()) ? 'paused' : 'active',
-          click: 0,
-          like: 0,
-          image: values?.image.fileList.map(file => file.thumbUrl)
+          image: values?.image?.fileList.map(file => file.thumbUrl)
         }
         handleAddOffer(offer);
       } else {

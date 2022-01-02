@@ -15,11 +15,13 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
     {
       title: 'Title',
       key: 'title',
-      dataIndex: 'title'
+      dataIndex: 'title',
+      align: 'center'
     },{
       title: 'Category',
       key: 'category',
       dataIndex: 'category',
+      align:'center',
       render: (value) => {
         if(value){
           return capitalizeFirstLetter(value);
@@ -28,11 +30,15 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       filters: [
         { text: 'vehicle & accessories', value: 'vehicle' },
         { text: 'vehicle', value: 'vehicle' }
-      ]
+      ],
+      onFilter: (value, record) => {
+        console.log({ value, record })
+      }
     },{
       title: 'Subcategory',
       key: 'subcategory',
       dataIndex: 'subcategory',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         if(value){
@@ -42,11 +48,15 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       filters: [
         { text: 'vehicle & accessories', value: 'vehicle' },
         { text: 'vehicle', value: 'vehicle' }
-      ]
+      ],
+      onFilter: (value, record) => {
+        console.log({ value, record })
+      }
     },{
       title: 'Store',
       key: 'store',
       dataIndex: 'store',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         if(value){
@@ -61,6 +71,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       title: 'Type',
       key: 'type',
       dataIndex: 'type',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         if(value){
@@ -75,6 +86,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       title: 'Mode',
       key: 'mode',
       dataIndex: 'mode',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         if(value){
@@ -93,21 +105,25 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       title: 'Discount',
       key: 'discount',
       dataIndex: 'discount',
+      align: 'center',
       width: '0.1%'
     },{
       title: 'Code',
       key: 'code',
       dataIndex: 'code',
+      align: 'center',
       width: '0.1%'
-    },user.role === roles.superAdmin && {
+    },{
       title: 'Creator',
       key: 'creator',
       dataIndex: 'creator',
+      align: 'center',
       width: '0.1%'
     },{
       title: 'Starts',
       key: 'start',
       dataIndex: 'start',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         if(value){
@@ -118,6 +134,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       title: 'Ends',
       key: 'end',
       dataIndex: 'end',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         if(value){
@@ -128,6 +145,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
+      align: 'center',
       width: '0.1%',
       render: (value) => {
         return value === 'active' ? 
@@ -151,11 +169,13 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       title: 'Clicks',
       key: 'click',
       dataIndex: 'click',
+      align: 'center',
       width: '0.1%'
     },{
       title: 'Likes',
       key: 'like',
       dataIndex: 'like',
+      align: 'center',
       width: '0.1%'
     },{
       title: 'Action',
@@ -193,7 +213,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
         </h2>
         <Table 
           rowKey={record => record?._id}
-          columns={offerTableColumn} 
+          columns={(user.role !== roles.superAdmin) ? offerTableColumn.filter(column => column.key !== 'creator' ) : offerTableColumn} 
           dataSource={offers} 
           bordered 
           pagination={true} 

@@ -7,7 +7,7 @@ const OfferList = ({ offerList }) => {
   return(
     <Row gutter={[16, 16]}>
       {offerList.map(offer => {
-        return <Col key={offer._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 6 }} xxl={{ span: 3 }}>
+        return <Col key={offer._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 6 }} xxl={{ span: 4 }}>
           <OfferCard offer={offer} />
         </Col>
       })}

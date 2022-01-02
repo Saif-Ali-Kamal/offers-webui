@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import PageLayout from '../../../components/admin/layout/PageLayout';
@@ -8,7 +8,8 @@ import { deleteOfferAction, getAllOffersAction, getOfferByIdAction } from '../..
 const Offers = () => {
 
   const { offerList, status } = useSelector(state => state.offers);
-  const { userData } = useSelector(state => state.user)
+  const { userData } = useSelector(state => state.user);
+  const [filters, setFilters] = useState({});
   const dispatch = useDispatch();
   const history = useHistory();
   
