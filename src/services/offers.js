@@ -10,9 +10,9 @@ export const addOfferService = (offer) => {
   })
 }
 
-export const getAllOffersService = () => {
+export const getAllOffersService = (urlParams) => {
   return new Promise((resolve, reject) => {
-    api.get('/offer/getAllOffers').then(res => {
+    api.get(`/offer/getAllOffers?${urlParams}`).then(res => {
       if(res.status === 200){
         resolve({ msg: res.data.mesage, offers: res.data.data, totalOffers: res.data.count })
       }

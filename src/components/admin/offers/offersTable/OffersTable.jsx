@@ -5,7 +5,14 @@ import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
 import OfferDetails from './OfferDetails';
 import { roles } from '../../../../utils/constant';
 
-const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisible, handleDeleteOffer }) => {
+const OffersTable = ({ 
+  offers, 
+  user,
+  reqFilters,
+  setReqFilters, 
+  handleAddOfferVisible, 
+  handleEditOfferVisible, 
+  handleDeleteOffer }) => {
   
   const handleUpateOffer = (id) => {
     handleEditOfferVisible(id);
@@ -30,10 +37,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       filters: [
         { text: 'vehicle & accessories', value: 'vehicle' },
         { text: 'vehicle', value: 'vehicle' }
-      ],
-      onFilter: (value, record) => {
-        console.log({ value, record })
-      }
+      ]
     },{
       title: 'Subcategory',
       key: 'subcategory',
@@ -48,10 +52,7 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       filters: [
         { text: 'vehicle & accessories', value: 'vehicle' },
         { text: 'vehicle', value: 'vehicle' }
-      ],
-      onFilter: (value, record) => {
-        console.log({ value, record })
-      }
+      ]
     },{
       title: 'Store',
       key: 'store',
@@ -64,8 +65,8 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
         }
       },
       filters: [
-        { text: 'Amazon', value: 'vehicle' },
-        { text: 'vehicle', value: 'vehicle' }
+        { text: 'Amazon', value: 'amazon' },
+        { text: 'Filpkart', value: 'flipkart' }
       ]
     },{
       title: 'Type',
@@ -118,7 +119,8 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       key: 'creator',
       dataIndex: 'creator',
       align: 'center',
-      width: '0.1%'
+      width: '0.1%',
+      filter: []
     },{
       title: 'Starts',
       key: 'start',
@@ -129,7 +131,8 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
         if(value){
           return formatDateTime(value);
         }
-      }
+      },
+      sorter: true
     },{
       title: 'Ends',
       key: 'end',
@@ -140,7 +143,8 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
         if(value){
           return formatDateTime(value);
         }
-      }
+      },
+      sorter: true
     },{
       title: 'Status',
       key: 'status',
@@ -170,13 +174,15 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
       key: 'click',
       dataIndex: 'click',
       align: 'center',
-      width: '0.1%'
+      width: '0.1%',
+      sorter: true
     },{
       title: 'Likes',
       key: 'like',
       dataIndex: 'like',
       align: 'center',
-      width: '0.1%'
+      width: '0.1%',
+      sorter: true
     },{
       title: 'Action',
       render: (_, record) => {
@@ -216,7 +222,24 @@ const OffersTable = ({ offers, user, handleAddOfferVisible, handleEditOfferVisib
           columns={(user.role !== roles.superAdmin) ? offerTableColumn.filter(column => column.key !== 'creator' ) : offerTableColumn} 
           dataSource={offers} 
           bordered 
-          pagination={true} 
+          onChange={(pagination, filters, sorter, extra) => {
+            if(extra.action !== 'paginate'){
+              setReqFilters({ ...reqFilters, ...filters, ...sorter })
+            }
+          }}
+          pagination={{
+            position: ['bottomCenter'],
+            showSizeChanger: true,
+            showQuickJumper: true,
+            defaultPageSize: 20,
+            defaultCurrent: 1,
+            pageSize: reqFilters.rowsPerPage,
+            current: reqFilters.pageNo,
+            pageSizeOptions: [20, 50, 80, 100],
+            onChange: (page, pageSize) => {
+              setReqFilters({ ...reqFilters, pageNo: page, rowsPerPage: pageSize })
+            }
+          }} 
           scroll={{ x: 1000 }}
           rowSelection={{
             

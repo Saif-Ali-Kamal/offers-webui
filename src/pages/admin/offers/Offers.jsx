@@ -9,16 +9,16 @@ const Offers = () => {
 
   const { offerList, status } = useSelector(state => state.offers);
   const { userData } = useSelector(state => state.user);
-  const [filters, setFilters] = useState({});
+  const [reqFilters, setReqFilters] = useState({});
   const dispatch = useDispatch();
   const history = useHistory();
   
   useEffect(() => {
-    handleGetAllOffers();
-  }, [])
+    handleGetAllOffers(reqFilters);
+  }, [reqFilters])
 
-  const handleGetAllOffers = () => {
-    dispatch(getAllOffersAction());
+  const handleGetAllOffers = (reqFilters) => {
+    dispatch(getAllOffersAction(reqFilters));
   }
 
   const handleDeleteOffer = (id) => {
@@ -40,6 +40,8 @@ const Offers = () => {
       <OffersTable 
         offers={offerList}
         user={userData}
+        reqFilters={reqFilters}
+        setReqFilters={setReqFilters}
         handleAddOfferVisible={handleOpenAddOffer}
         handleEditOfferVisible={handleOpenEditOffer}
         handleDeleteOffer={handleDeleteOffer}
