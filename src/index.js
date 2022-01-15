@@ -10,7 +10,7 @@ import { onAppLoad } from './utils/utils';
 onAppLoad();
 
 ReactDOM.render(
-  <Provider store={store} >
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root')

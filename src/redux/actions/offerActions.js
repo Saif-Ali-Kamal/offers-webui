@@ -15,8 +15,7 @@ export const addOfferAction = createAsyncThunk(
 export const getAllOffersAction = createAsyncThunk(
   'offer/getAllOffersAction',
   async (reqFilters) => {
-    const urlParams = new URLSearchParams(reqFilters).toString();
-    return getAllOffersService(urlParams).then(res => {
+    return getAllOffersService().then(res => {
       notify('success', 'Offer fetched successfully', res.message);
       return { offers: res?.offers, totalOffers: res?.totalOffers };
     }).catch(ex => notify('error', 'Error in fetching offer', ex));

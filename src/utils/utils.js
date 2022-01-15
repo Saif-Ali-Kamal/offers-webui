@@ -6,6 +6,7 @@ import store from '../redux/store';
 import { onPageLoad } from '../redux/reducers/userReducer';
 import { toggleMobileSidenav } from '../redux/reducers/utilsReducer';
 import { roles } from './constant';
+import moment from 'moment';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){
@@ -44,14 +45,16 @@ export const userLogout = () => {
   window.location.reload();
 }
 
-export const formatDateTime = (dateTime) => {
-  const date = new Date(dateTime).getDate();
-  const month = new Date(dateTime).getMonth();
-  const year = new Date(dateTime).getFullYear();
-  const hour = new Date(dateTime).getHours();
-  const minute = new Date(dateTime).getMinutes();
-  const second = new Date(dateTime).getSeconds();
-  return `${date}/${month}/${year} ${hour}:${minute}:${second}`;
+export const formatParsingDateTime = (dateTime) => {
+  return moment(dateTime).utc(true);
+}
+
+export const formatDisplayingDateTime = (dateTime) => {
+  return moment(dateTime).utc(false).format("DD/MM/YYYY HH:mm:ss");
+}
+
+export const displayingDateTime = (dateTime) => {
+  return moment(dateTime).utc(false);
 }
 
 export const capitalizeFirstLetter = (text) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Table, Button, Popconfirm, Tooltip } from 'antd';
-import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, PauseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { formatDateTime, capitalizeFirstLetter } from '../../../../utils/utils';
+import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, PauseCircleOutlined, ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { capitalizeFirstLetter, formatDisplayingDateTime } from '../../../../utils/utils';
 import OfferDetails from './OfferDetails';
 import { roles } from '../../../../utils/constant';
 
@@ -129,7 +129,7 @@ const OffersTable = ({
       width: '0.1%',
       render: (value) => {
         if(value){
-          return formatDateTime(value);
+          return formatDisplayingDateTime(value);
         }
       },
       sorter: true
@@ -141,7 +141,7 @@ const OffersTable = ({
       width: '0.1%',
       render: (value) => {
         if(value){
-          return formatDateTime(value);
+          return formatDisplayingDateTime(value);
         }
       },
       sorter: true
@@ -160,8 +160,12 @@ const OffersTable = ({
           <Tooltip title='Paused' color='#808080'>
             <PauseCircleOutlined style={{ color: '#808080', fontSize: '24px' }} />
           </Tooltip> :
+          value === 'scheduled' ?
+          <Tooltip title='Scheduled' color='#1890ff'>
+            <ClockCircleOutlined style={{ color: '#1890ff', fontSize: '24px' }} />
+          </Tooltip> :
           <Tooltip title='Expired' color='#FF4D4F'> 
-            <ClockCircleOutlined style={{ color: '#FF4D4F', fontSize: '24px' }} />
+            <CloseCircleOutlined style={{ color: '#FF4D4F', fontSize: '24px' }} />
           </Tooltip> ;
       },
       filters: [

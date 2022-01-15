@@ -11,6 +11,8 @@ import Offers from '../pages/admin/offers/Offers';
 import Home from '../pages/user/Home';
 import UserOffers from '../pages/user/UserOffers';
 import AddEditOffer from '../pages/admin/offers/AddEditOffer';
+import Categories from '../pages/admin/categories/Categories';
+import AddEditCategory from '../pages/admin/categories/AddEditCategory';
 
 const Routes = () => {
   return (
@@ -23,6 +25,9 @@ const Routes = () => {
         <AdminRoute path='/admin/offers' exact component={Offers} />
         <AdminRoute path='/admin/offers/addOffer' exact component={() => <AddEditOffer type='add' />} />
         <AdminRoute path='/admin/offers/editOffer' exact component={() => <AddEditOffer type='edit' />} />
+        <AdminRoute path='/admin/categories' exact component={Categories} />
+        <AdminRoute path='/admin/categories/addCategory' exact component={() => <AddEditCategory type='add' />} />
+        <AdminRoute path='/admin/categories/editCategory' exact component={() => <AddEditCategory type='edit' />} />
         <Route path='/' exact component={() => <Redirect to={'/home'} />} />
         <Route path='/home' exact component={Home} />
         <Route path='/offers' exact component={UserOffers} />

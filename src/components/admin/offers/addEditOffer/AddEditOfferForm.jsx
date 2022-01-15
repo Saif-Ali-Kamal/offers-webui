@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Form, Input, Cascader, Select, DatePicker, Upload, Card, Button, Checkbox } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import { UploadOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import { categoryOptions } from '../../../../utils/constant';
 import { useSelector } from 'react-redux';
+import { displayingDateTime, formatParsingDateTime } from '../../../../utils/utils';
+import moment from 'moment';
 
 const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, handleEditOffer, formType }) => {
 
@@ -60,7 +61,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
     mode: initialvalues?.mode,
     discount: initialvalues?.discount,
     code: initialvalues?.code,
-    date: [moment(initialvalues?.start), moment(initialvalues?.end)],
+    date: [displayingDateTime(initialvalues?.start), displayingDateTime(initialvalues?.end)],
     country: initialvalues?.country,
     tags: initialvalues?.tags,
     link: initialvalues?.link,
@@ -82,12 +83,13 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           discount: values?.discount,
           code: values?.code,
           creator: userId,
-          start: values?.date[0],
-          end: values?.date[1],
+          start: formatParsingDateTime(values?.date[0]),
+          end: formatParsingDateTime(values?.date[1]),
           country: values?.country,
           tags: values?.tags,
           link: values?.link,
-          status: values?.date[0] > moment(new Date()) ? 'paused' : 'active',
+          status: formatParsingDateTime(values?.date[0]) > formatParsingDateTime(new Date()) ? 'scheduled' : 
+            formatParsingDateTime(values?.date[1]) < formatParsingDateTime(new Date()) ? 'expired' : 'active',
           image: values?.image?.fileList.map(file => file.thumbUrl)
         }
         handleAddOffer(offer);
@@ -113,19 +115,20 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           updatedOffer = [...updatedOffer, { propName: 'discount', value: `${values.discount}` }];
         } if(formIntialValues?.code !== values?.code) {
           updatedOffer = [...updatedOffer, { propName: 'code', value: `${values.code}` }];
-        } if(formIntialValues?.date[0] !== values?.date[0]) {
-          updatedOffer = [...updatedOffer, { propName: 'start', value: `${values.date[0]}` }];
-        } if(formIntialValues?.date[1] !== values?.date[1]) {
-          updatedOffer = [...updatedOffer, { propName: 'end', value: `${values.date[1]}` }];
-        } if(formIntialValues?.county !== values?.county) {
-          updatedOffer = [...updatedOffer, { propName: 'county', value: `${values.county}` }];
+        } if(formIntialValues?.date[0] !== formatParsingDateTime(values?.date[0])) {
+          updatedOffer = [...updatedOffer, { propName: 'start', value: `${formatParsingDateTime(values.date[0])}` }];
+        } if(formIntialValues?.date[1] !== formatParsingDateTime(values?.date[1])) {
+          updatedOffer = [...updatedOffer, { propName: 'end', value: `${formatParsingDateTime(values.date[1])}` }];
+        } if(formIntialValues?.country !== values?.country) {
+          updatedOffer = [...updatedOffer, { propName: 'country', value: values.country }];
         } if(formIntialValues?.tags !== values?.tags) {
-          updatedOffer = [...updatedOffer, { propName: 'tags', value: `${values.tags}` }];
+          updatedOffer = [...updatedOffer, { propName: 'tags', value: values.tags }];
         } if(formIntialValues?.link !== values?.link) {
           updatedOffer = [...updatedOffer, { propName: 'link', value: `${values.link}` }];
         } if(values?.image?.file && (formIntialValues?.image[0] !== values?.image?.fileList[0]?.thumbUrl || formIntialValues?.image[1] !== values?.image?.fileList[1]?.thumbUrl)) {
           updatedOffer = [...updatedOffer, { propName: 'image', value: values?.image?.fileList?.map(file => file.thumbUrl) }];
         }
+        updatedOffer = [...updatedOffer, { propsName: 'updatedAt', value: formatParsingDateTime(new Date()) }]
         handleEditOffer(initialvalues._id, updatedOffer);
       }
       handleCancelOffer();
@@ -142,7 +145,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           <Input.TextArea rows={4} placeholder='Offer description' />
         </Form.Item>
         <Form.Item name='category' label='Category' rules={[{ required: true, message: 'Please select the offer category!' }]}>
-          <Cascader options={categoryOptions} size='large' placeholder='Offer category' style={{ width: '100%' }} />
+          <Cascader options={categoryOptions} size='large' placeholder='Offer category' />
         </Form.Item>
         <Form.Item name='store' label='Store' rules={[{ required: true, message: 'Please select the offer store!' }]}>
           <Select placeholder='Offer store'>

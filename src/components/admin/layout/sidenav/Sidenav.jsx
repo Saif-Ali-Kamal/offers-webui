@@ -27,6 +27,10 @@ const Sidenav = ({ selectedNav, collapsed, mobileSidenav }) => {
           onClick={() => history.push('/admin/offers')}>
           Offers
         </Menu.Item>
+        <Menu.Item key='categories' icon={ <OffersIcon /> }
+          onClick={() => history.push('/admin/categories')}>
+          Categories
+        </Menu.Item>
       </Menu>
     </Sider>
   );
