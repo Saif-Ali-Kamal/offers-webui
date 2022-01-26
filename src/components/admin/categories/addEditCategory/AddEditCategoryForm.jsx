@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Upload, Card, Button, Typography, Popconfirm } from 'antd';
+import { Form, Input, Upload, Card, Button, Typography, Popconfirm, Image } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import { UploadOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
@@ -9,6 +9,24 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
   const { Dragger } = Upload;
 
   const [fileList, setFileList] = useState(initialvalues?.icon)
+  
+  const imageToBase64 = (file) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file.file);
+    fileReader.onload = () => {
+      setFileList(fileReader.result.toString());
+      return true
+    }
+  }
+
+  const base64ToImage = (base64String) => {
+    fetch(base64String).then(res => res.blob()).then(blob => {
+      const imageFile = new File([blob], "abc", { type: "image/png", thumbUrl: base64String });
+      console.log(imageFile)
+      return imageFile;
+    })
+  }
+
   const onPreview = async file => {
     let src = file.thumbUrl;
     if (!src) {
@@ -43,18 +61,26 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
   const formIntialValues = {
     name: initialvalues?.name,
     description: initialvalues?.description,
-    icon: initialvalues?.icon
+    icon: initialvalues?.icon,
+    subcategories: initialvalues?.subcategories
   }
   
   const handleSubmit = () => {
     form.validateFields().then(values => {
-      console.log(values)
+      console.log(values.icon)
       if(formType === 'add'){
         const category = {
           name: values?.name,
           description: values?.description,
-          icon: values?.icon?.fileList[0]?.thumbUrl,
-          subcategories: values?.subcategories
+          // icon: values?.icon?.fileList[0]?.thumbUrl,
+          icon: fileList,
+          subcategories: values?.subcategories?.map(val => {
+            return { 
+              name: val?.name,
+              description: val?.description,
+              icon: val?.icon?.fileList[0]?.thumbUrl 
+            }
+          })
         }
         handleAddCategory(category);
       } else {
@@ -65,6 +91,14 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
           updatedCategory = [...updatedCategory, { propName: 'description', value: `${values.description}` }];
         } if(values?.icon?.file && (formIntialValues?.icon !== values?.icon?.fileList[0]?.thumbUrl)) {
           updatedCategory = [...updatedCategory, { propName: 'icon', value: values?.icon?.fileList[0]?.thumbUrl }];
+        } if(formIntialValues?.subcategories !== values?.subcategories) {
+          updatedCategory = [...updatedCategory, { propName: 'subcategories', value: values?.subcategories?.map(val => {
+            return {
+              name: val?.name,
+              description: val?.description,
+              icon: val?.icon?.fileList[0]?.thumbUrl 
+            }
+          }) }];
         }
         handleEditCategory(initialvalues._id, updatedCategory);
       }
@@ -84,22 +118,21 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
         </Form.Item>
         <Form.Item name='icon' label='icon'>
           <Dragger 
+            name='file'
             accept='.png, .jpg, .jpeg'
             multiple={false}
             maxCount={1}
             listType='picture-card'
             onPreview={onPreview}
-            // onRemove={onRemove}
-            beforeUpload={Upload.LIST_IGNORE}
-            // onChange={file => setFileList(file.fileList)}
-            // defaultFileList={initialvalues?.icon ? fileList.map(fileUrl => {
-            //   return { thumbUrl: fileUrl }
-            // }) : fileList}
+            onRemove={onRemove}
+            beforeUpload={imageToBase64}
+            fileList={initialvalues?.icon && [{ thumbUrl: fileList }]}
           >
             <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
             <p className='ant-upload-text'>Click or drag file to this area to upload</p>
             <p className='ant-upload-hint'>You can upload only one icon</p>
           </Dragger>
+          {/* {fileList && <Image src={fileList} />} */}
         </Form.Item>
         <Typography.Title level={4}>Subcategories:</Typography.Title>
         <Form.List name='subcategories'>
@@ -119,13 +152,13 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
                     multiple={false}
                     maxCount={1}
                     listType='picture-card'
-                    // onPreview={onPreview}
-                    // onRemove={onRemove}
+                    onPreview={onPreview}
+                    onRemove={onRemove}
                     beforeUpload={Upload.LIST_IGNORE}
-                    // onChange={file => setFileList(file.fileList)}
-                    // defaultFileList={initialvalues?.icon ? fileList.map(fileUrl => {
-                    //   return { thumbUrl: fileUrl }
-                    // }) : fileList}
+                    onChange={file => setFileList(file.fileList)}
+                    defaultFileList={initialvalues?.icon ? fileList.map(fileUrl => {
+                      return { thumbUrl: fileUrl }
+                    }) : fileList}
                   >
                     <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
                     <p className='ant-upload-text'>Click or drag file to this area to upload</p>
