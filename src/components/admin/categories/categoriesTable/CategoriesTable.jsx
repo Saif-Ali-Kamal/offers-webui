@@ -33,7 +33,7 @@ const CategoriesTable = ({
       align: 'center',
       render: (value) => {
         if(value){
-          return <Image src={value} alt="img" />
+          return <Image src={value} alt="img" height="64px" width="120px" />
         }
       }
     },{

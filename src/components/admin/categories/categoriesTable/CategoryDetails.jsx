@@ -21,7 +21,7 @@ const CategoryDetails = ({ record }) => {
       align: 'center',
       render: (value) => {
         if(value){
-          return <Image src={value} alt="img" />
+          return <Image src={value} alt="img" height="64px" width="120px" />
         }
       }
     }
@@ -36,6 +36,7 @@ const CategoryDetails = ({ record }) => {
         dataSource={record} 
         bordered 
         scroll={{ x: 1000 }}
+        pagination={false}
       />
     </Card>
   );

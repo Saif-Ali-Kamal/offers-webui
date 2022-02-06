@@ -1,54 +1,53 @@
 import React, { useState } from 'react';
-import { Form, Input, Upload, Card, Button, Typography, Popconfirm, Image } from 'antd';
+import { Form, Input, Upload, Card, Button, Typography, Popconfirm } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import { UploadOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import ImageModal from '../../../common/ImageModal';
 
 const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialvalues, handleEditCategory, formType }) => {
 
   const [form] = Form.useForm();
   const { Dragger } = Upload;
 
-  const [fileList, setFileList] = useState(initialvalues?.icon)
+  const [categoryIcon, setCategoryIcon] = useState(initialvalues?.icon);
+  const [subcategoryIcon, setSubcategoryIcon] = useState(initialvalues?.subcategories ? initialvalues?.subcategories?.map(value => {
+    if(value.icon){
+      return value.icon;
+    }
+  }) : []);
+  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   
-  const imageToBase64 = (file) => {
+  const imageToBase64 = (file, type, index) => {
     const fileReader = new FileReader();
-    fileReader.readAsDataURL(file.file);
+    fileReader.readAsDataURL(file);
     fileReader.onload = () => {
-      setFileList(fileReader.result.toString());
-      return true
+      const result = fileReader.result.toString();
+      if(type === 'category'){
+        setCategoryIcon(result);
+      } else {
+        subcategoryIcon[index] = result;
+      }
     }
+    return false;
   }
 
-  const base64ToImage = (base64String) => {
-    fetch(base64String).then(res => res.blob()).then(blob => {
-      const imageFile = new File([blob], "abc", { type: "image/png", thumbUrl: base64String });
-      console.log(imageFile)
-      return imageFile;
-    })
-  }
-
-  const onPreview = async file => {
-    let src = file.thumbUrl;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const icon = new Image();
-    icon.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(icon.outerHTML);
+  const onPreview = (file) => {
+    setPreviewImage(file);
+    setImageModalVisible(true);
   };
 
-  const onRemove = (file) => {
+  const onRemove = (file, type) => {
     return new Promise((resolve, reject) => {
       confirm({
-          title: 'are you sure to remove this file?',
+          title: 'Are you sure to remove this file?',
           onOk: () => {
-            const filteredList = fileList.filter(icon => icon === file.thumbUrl);
-            setFileList(filteredList);
+            if(type === 'category'){
+              setCategoryIcon(null);
+            } else {
+              const filteredList = subcategoryIcon.filter(image => image === file.thumbUrl);
+              setSubcategoryIcon(filteredList);
+            }
             resolve(true);
           },
           onCancel: () => {
@@ -64,21 +63,19 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
     icon: initialvalues?.icon,
     subcategories: initialvalues?.subcategories
   }
-  
+  console.log({subcategoryIcon, fi: formIntialValues.subcategories})
   const handleSubmit = () => {
     form.validateFields().then(values => {
-      console.log(values.icon)
       if(formType === 'add'){
         const category = {
           name: values?.name,
           description: values?.description,
-          // icon: values?.icon?.fileList[0]?.thumbUrl,
-          icon: fileList,
-          subcategories: values?.subcategories?.map(val => {
+          icon: categoryIcon,
+          subcategories: values?.subcategories?.map((val, index) => {
             return { 
               name: val?.name,
               description: val?.description,
-              icon: val?.icon?.fileList[0]?.thumbUrl 
+              icon: subcategoryIcon[index] 
             }
           })
         }
@@ -89,14 +86,15 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
           updatedCategory = [...updatedCategory, { propName: 'name', value: `${values.name}` }];
         } if(formIntialValues?.description !== values?.description) {
           updatedCategory = [...updatedCategory, { propName: 'description', value: `${values.description}` }];
-        } if(values?.icon?.file && (formIntialValues?.icon !== values?.icon?.fileList[0]?.thumbUrl)) {
-          updatedCategory = [...updatedCategory, { propName: 'icon', value: values?.icon?.fileList[0]?.thumbUrl }];
+        } if(values?.icon?.file && (formIntialValues?.icon !== categoryIcon)) {
+          updatedCategory = [...updatedCategory, { propName: 'icon', value: categoryIcon }];
         } if(formIntialValues?.subcategories !== values?.subcategories) {
-          updatedCategory = [...updatedCategory, { propName: 'subcategories', value: values?.subcategories?.map(val => {
+          updatedCategory = [...updatedCategory, { propName: 'subcategories', value: values?.subcategories?.map((val, index) => {
+            console.log(subcategoryIcon)
             return {
               name: val?.name,
               description: val?.description,
-              icon: val?.icon?.fileList[0]?.thumbUrl 
+              icon: subcategoryIcon[index]
             }
           }) }];
         }
@@ -123,28 +121,27 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
             multiple={false}
             maxCount={1}
             listType='picture-card'
-            onPreview={onPreview}
-            onRemove={onRemove}
-            beforeUpload={imageToBase64}
-            fileList={initialvalues?.icon && [{ thumbUrl: fileList }]}
+            onPreview={() => onPreview(categoryIcon)}
+            onRemove={(file) => onRemove(file, 'category')}
+            beforeUpload={(file) => imageToBase64(file, 'category')}
+            defaultFileList={initialvalues?.icon ? [{ thumbUrl: categoryIcon }] : categoryIcon}
           >
             <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
             <p className='ant-upload-text'>Click or drag file to this area to upload</p>
             <p className='ant-upload-hint'>You can upload only one icon</p>
           </Dragger>
-          {/* {fileList && <Image src={fileList} />} */}
         </Form.Item>
         <Typography.Title level={4}>Subcategories:</Typography.Title>
         <Form.List name='subcategories'>
         {(fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, ...restField }) => (
+            {fields.map(({ key, name, ...restField }, index) => (
               <Card bordered>
                 <Form.Item {...restField} name={[name, "name"]} label='Name' rules={[{ required: true, message: 'Please input the subcategory name!' }]}>
                   <Input placeholder='Subcategory name'/>
                 </Form.Item>
                 <Form.Item {...restField} name={[name, "description"]} label='Description' rules={[{ required: true, message: 'Please input the subcategory description!' }]}>
-                  <Input placeholder='Subcategory name'/>
+                  <Input placeholder='Subcategory description'/>
                 </Form.Item>   
                 <Form.Item name={[name, "icon"]} label='Icon'>
                   <Dragger 
@@ -152,13 +149,10 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
                     multiple={false}
                     maxCount={1}
                     listType='picture-card'
-                    onPreview={onPreview}
-                    onRemove={onRemove}
-                    beforeUpload={Upload.LIST_IGNORE}
-                    onChange={file => setFileList(file.fileList)}
-                    defaultFileList={initialvalues?.icon ? fileList.map(fileUrl => {
-                      return { thumbUrl: fileUrl }
-                    }) : fileList}
+                    onPreview={() => onPreview(subcategoryIcon[index])}
+                    onRemove={(file) => onRemove(file, 'subcategory')}
+                    beforeUpload={(file) => imageToBase64(file, 'subcategory', index)}
+                    defaultFileList={initialvalues?.subcategories ? [{ thumbUrl : subcategoryIcon[index] }] : subcategoryIcon}
                   >
                     <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
                     <p className='ant-upload-text'>Click or drag file to this area to upload</p>
@@ -203,6 +197,15 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
         <Button type='primary' ghost onClick={handleCancelCategory}>Cancel</Button>
         <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add Category' : 'Save Category'}</Button>
       </div>
+      {imageModalVisible && <ImageModal
+        visible={imageModalVisible}
+        title={'Preview Image'} 
+        image={previewImage} 
+        handleClose={() => {
+          setPreviewImage(null);
+          setImageModalVisible(false);
+        }}
+      />}
     </Card>
   );
 } 

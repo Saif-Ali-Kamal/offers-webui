@@ -6,6 +6,7 @@ import { categoryOptions } from '../../../../utils/constant';
 import { useSelector } from 'react-redux';
 import { displayingDateTime, formatParsingDateTime } from '../../../../utils/utils';
 import moment from 'moment';
+import ImageModal from '../../../common/ImageModal';
 
 const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, handleEditOffer, formType }) => {
 
@@ -17,22 +18,24 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
   const [productChecked, setProductChecked] = useState(initialvalues?.product ? true : false);
   const [offerType, setOfferType] = useState(initialvalues?.type);
   const [fileList, setFileList] = useState(initialvalues?.image || []);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [imageModalVisible, setImageModalVisible] = useState(false);
 
   const userId = useSelector(state => state.user.userData.userId);
 
-  const onPreview = async file => {
-    let src = file.thumbUrl;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
+  const imageToBase64 = (file) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      const result = fileReader.result.toString();
+      setFileList([...fileList, result]);
     }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
+    return false;
+  }
+
+  const onPreview = file => {
+    setPreviewImage(file.thumbUrl);
+    setImageModalVisible(true);
   };
 
   const onRemove = (file) => {
@@ -211,8 +214,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
             listType='picture-card'
             onPreview={onPreview}
             onRemove={onRemove}
-            beforeUpload={Upload.LIST_IGNORE}
-            onChange={file => setFileList(file.fileList)}
+            beforeUpload={imageToBase64}
             defaultFileList={initialvalues?.image ? fileList.map(fileUrl => {
               return { thumbUrl: fileUrl }
             }) : fileList}
@@ -227,6 +229,15 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
         <Button type='primary' ghost onClick={handleCancelOffer}>Cancel</Button>
         <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add Offer' : 'Save Offer'}</Button>
       </div>
+      {imageModalVisible && <ImageModal
+        visible={imageModalVisible}
+        title={'Preview Image'} 
+        image={previewImage} 
+        handleClose={() => {
+          setPreviewImage(null);
+          setImageModalVisible(false);
+        }}
+      />}
     </Card>
   );
 } 
