@@ -27,7 +27,7 @@ export const getCarouselByIdAction = createAsyncThunk(
   async (id) => {
     return getCarouselByIdService(id).then(res => {
       notify('success', 'Carousel fetched successfully', res.message);
-      return res.Carousel;
+      return res.carousel;
     }).catch(ex => notify('error', 'Error in fetching carousel', ex));
   }
 );

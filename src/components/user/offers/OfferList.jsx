@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import OfferCard from './OfferCard';
  
 const OfferList = ({ offerList }) => {
-  console.log(offerList)
+
   return(
     <Row gutter={[16, 16]}>
       {offerList.map(offer => {

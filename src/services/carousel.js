@@ -24,7 +24,7 @@ export const getCarouselByIdService = (id) => {
   return new Promise((resolve, reject) => {
     api.get(`/Carousel/getCarousel/${id}`).then(res => {
       if(res.status === 200){
-        resolve({ msg: res.data.message, Carousel: res.data.data })
+        resolve({ msg: res.data.message, carousel: res.data.data })
       }
     }).catch(ex => reject(ex))
   })

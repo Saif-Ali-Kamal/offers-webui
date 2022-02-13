@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Image, Table, Typography } from "antd";
 
-const CategoryDetails = ({ record }) => {
+const CategoryDetails = ({ categoryName, record }) => {
 
   const subcategoryTableColumn = [
     {
@@ -29,7 +29,7 @@ const CategoryDetails = ({ record }) => {
 
   return(
     <Card>
-      <Typography.Title level={3}>Subcategories</Typography.Title>
+      <Typography.Title level={3}>{categoryName} subcategories</Typography.Title>
       <Table 
         rowKey={record => record?._id}
         columns={subcategoryTableColumn} 

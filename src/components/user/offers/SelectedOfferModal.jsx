@@ -14,7 +14,7 @@ const SelectedOfferModal = ({ visible, handleCancel, offer }) => {
       onCancel={handleCancel}
       title={offer.image ? 
         <center><Image   
-          src={offer.image[0]} 
+          src={offer.image} 
           style={{ 
             width: '100%',
             height: '100%'

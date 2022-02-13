@@ -32,9 +32,9 @@ const AddEditOffer = ({ type }) => {
       selectedNav='offers' 
       crumbs={[{ text: 'Offers', link: '/admin/offers' }, 
         type === 'add' ? 
-        { text: 'Add Offer' } : { text: 'Edit Offer' }]} 
+        { text: 'Add offer' } : { text: 'Edit offer' }]} 
       innerPage
-      title={type === 'add' ? 'Add Offer' : 'Edit Offer'}
+      title={type === 'add' ? 'Add offer' : 'Edit offer'}
       handleClick={handleCancelOffer}
       status={status}
     >

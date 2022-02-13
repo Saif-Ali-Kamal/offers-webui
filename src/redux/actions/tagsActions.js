@@ -27,7 +27,7 @@ export const getTagByIdAction = createAsyncThunk(
   async (id) => {
     return getTagByIdService(id).then(res => {
       notify('success', 'Tag fetched successfully', res.message);
-      return res.Tag;
+      return res.tag;
     }).catch(ex => notify('error', 'Error in fetching tag', ex));
   }
 );

@@ -63,7 +63,7 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
     icon: initialvalues?.icon,
     subcategories: initialvalues?.subcategories
   }
-  console.log({subcategoryIcon, fi: formIntialValues.subcategories})
+
   const handleSubmit = () => {
     form.validateFields().then(values => {
       if(formType === 'add'){
@@ -90,7 +90,6 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
           updatedCategory = [...updatedCategory, { propName: 'icon', value: categoryIcon }];
         } if(formIntialValues?.subcategories !== values?.subcategories) {
           updatedCategory = [...updatedCategory, { propName: 'subcategories', value: values?.subcategories?.map((val, index) => {
-            console.log(subcategoryIcon)
             return {
               name: val?.name,
               description: val?.description,
@@ -117,7 +116,7 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
         <Form.Item name='icon' label='icon'>
           <Dragger 
             name='file'
-            accept='.png, .jpg, .jpeg'
+            accept='.png, .jpg, .jpeg, .svg'
             multiple={false}
             maxCount={1}
             listType='picture-card'
@@ -145,7 +144,7 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
                 </Form.Item>   
                 <Form.Item name={[name, "icon"]} label='Icon'>
                   <Dragger 
-                    accept='.png, .jpg, .jpeg'
+                    accept='.png, .jpg, .jpeg, .svg'
                     multiple={false}
                     maxCount={1}
                     listType='picture-card'
@@ -195,7 +194,7 @@ const AddEditCategoryForm = ({ handleAddCategory, handleCancelCategory, initialv
       </Form>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button type='primary' ghost onClick={handleCancelCategory}>Cancel</Button>
-        <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add Category' : 'Save Category'}</Button>
+        <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add category' : 'Save category'}</Button>
       </div>
       {imageModalVisible && <ImageModal
         visible={imageModalVisible}

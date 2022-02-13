@@ -41,11 +41,11 @@ const CategoriesTable = ({
       render: (_, record) => {
         return(
           <React.Fragment>
-            <Tooltip title='Edit Category' color='#1DA57A'>
+            <Tooltip title='Edit category' color='#1DA57A'>
               <Button style={{ marginRight:'8px' }} type='primary' ghost onClick={() => handleUpateCategory(record._id)}><EditOutlined style={{ fontSize:'16px' }}/></Button>
             </Tooltip>
             <Popconfirm title='Are you sure you want to delete this category and subcategories inside it?' okText='Yes' cancelText='No' onConfirm={() => handleDeleteCategory(record._id)}>
-              <Tooltip title='Delete Category' color='#FF4D4F'>
+              <Tooltip title='Delete category' color='#FF4D4F'>
                 <Button style={{ color:'#FF4D4F', borderColor:'#FF4D4F' }}><DeleteOutlined style={{ fontSize:'16px' }}/></Button>
               </Tooltip>
             </Popconfirm>
@@ -71,31 +71,11 @@ const CategoriesTable = ({
           rowKey={record => record?._id}
           columns={categoryTableColumn} 
           dataSource={categories} 
-          bordered 
-          onChange={(pagination, filters, sorter, extra) => {
-            if(extra.action !== 'paginate'){
-              setReqFilters({ ...reqFilters, ...filters, ...sorter })
-            }
-          }}
-          pagination={{
-            position: ['bottomCenter'],
-            showSizeChanger: true,
-            showQuickJumper: true,
-            defaultPageSize: 20,
-            defaultCurrent: 1,
-            pageSize: reqFilters.rowsPerPage,
-            current: reqFilters.pageNo,
-            pageSizeOptions: [20, 50, 80, 100],
-            onChange: (page, pageSize) => {
-              setReqFilters({ ...reqFilters, pageNo: page, rowsPerPage: pageSize })
-            }
-          }} 
+          bordered
+          pagination={false}
           scroll={{ x: 1000 }}
-          rowSelection={{
-            
-          }}
           expandable={{
-            expandedRowRender: record => <CategoryDetails record={record?.subcategories} />
+            expandedRowRender: record => <CategoryDetails categoryName={record?.name} record={record?.subcategories} />
           }}
         />
       </Card>

@@ -17,7 +17,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
 
   const [productChecked, setProductChecked] = useState(initialvalues?.product ? true : false);
   const [offerType, setOfferType] = useState(initialvalues?.type);
-  const [fileList, setFileList] = useState(initialvalues?.image || []);
+  const [offerImage, setOfferImage] = useState(initialvalues?.image || []);
   const [previewImage, setPreviewImage] = useState(null);
   const [imageModalVisible, setImageModalVisible] = useState(false);
 
@@ -28,7 +28,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
     fileReader.readAsDataURL(file);
     fileReader.onload = () => {
       const result = fileReader.result.toString();
-      setFileList([...fileList, result]);
+      setOfferImage(result);
     }
     return false;
   }
@@ -38,13 +38,12 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
     setImageModalVisible(true);
   };
 
-  const onRemove = (file) => {
+  const onRemove = () => {
     return new Promise((resolve, reject) => {
       confirm({
           title: 'are you sure to remove this file?',
           onOk: () => {
-            const filteredList = fileList.filter(image => image === file.thumbUrl);
-            setFileList(filteredList);
+            setOfferImage(null);
             resolve(true);
           },
           onCancel: () => {
@@ -93,7 +92,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           link: values?.link,
           status: formatParsingDateTime(values?.date[0]) > formatParsingDateTime(new Date()) ? 'scheduled' : 
             formatParsingDateTime(values?.date[1]) < formatParsingDateTime(new Date()) ? 'expired' : 'active',
-          image: values?.image?.fileList.map(file => file.thumbUrl)
+          image: offerImage
         }
         handleAddOffer(offer);
       } else {
@@ -128,8 +127,8 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
           updatedOffer = [...updatedOffer, { propName: 'tags', value: values.tags }];
         } if(formIntialValues?.link !== values?.link) {
           updatedOffer = [...updatedOffer, { propName: 'link', value: `${values.link}` }];
-        } if(values?.image?.file && (formIntialValues?.image[0] !== values?.image?.fileList[0]?.thumbUrl || formIntialValues?.image[1] !== values?.image?.fileList[1]?.thumbUrl)) {
-          updatedOffer = [...updatedOffer, { propName: 'image', value: values?.image?.fileList?.map(file => file.thumbUrl) }];
+        } if(values?.image?.file && (formIntialValues?.image !== offerImage)) {
+          updatedOffer = [...updatedOffer, { propName: 'image', value: offerImage}];
         }
         updatedOffer = [...updatedOffer, { propsName: 'updatedAt', value: formatParsingDateTime(new Date()) }]
         handleEditOffer(initialvalues._id, updatedOffer);
@@ -208,16 +207,14 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
         </Form.Item>
         <Form.Item name='image' label='Image'>
           <Dragger 
-            accept='.png, .jpg, .jpeg'
-            multiple
-            maxCount={2}
+            accept='.png, .jpg, .jpeg, .svg'
+            multiple={false}
+            maxCount={1}
             listType='picture-card'
             onPreview={onPreview}
             onRemove={onRemove}
             beforeUpload={imageToBase64}
-            defaultFileList={initialvalues?.image ? fileList.map(fileUrl => {
-              return { thumbUrl: fileUrl }
-            }) : fileList}
+            defaultFileList={initialvalues?.image ? [{ thumbUrl: offerImage }] : offerImage}
           >
             <UploadOutlined style={{ fontSize: '50px', color: '#1DA57A' }} />
             <p className='ant-upload-text'>Click or drag file to this area to upload</p>
@@ -227,7 +224,7 @@ const AddEditOfferForm = ({ handleAddOffer, handleCancelOffer, initialvalues, ha
       </Form>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button type='primary' ghost onClick={handleCancelOffer}>Cancel</Button>
-        <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add Offer' : 'Save Offer'}</Button>
+        <Button type='primary' onClick={handleSubmit}>{formType === 'add' ? 'Add offer' : 'Save offer'}</Button>
       </div>
       {imageModalVisible && <ImageModal
         visible={imageModalVisible}

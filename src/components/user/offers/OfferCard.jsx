@@ -10,8 +10,8 @@ const OfferCard = ({ offer }) => {
   const [offerModalVisible, SetOfferModalVisible] = useState(false);
 
   const handleCardClick = () => {
-    window.open(offer.link, '_blank');
-    window.self.focus();
+    // window.open(offer.link, '_blank');
+    // window.self.focus();
     SetOfferModalVisible(true);
   }
 
@@ -21,7 +21,7 @@ const OfferCard = ({ offer }) => {
         hoverable
         cover={offer.image ? 
           <Image 
-            src={offer.image[0]} 
+            src={offer.image} 
             style={{ objectFit: 'cover',
               objectPosition: '50% 50%', 
               borderTopLeftRadius: '10px', 

@@ -32,9 +32,9 @@ const AddEditCategory = ({ type }) => {
       selectedNav='categories' 
       crumbs={[{ text: 'Categories', link: '/admin/categories' }, 
         type === 'add' ? 
-        { text: 'Add Category' } : { text: 'Edit Category' }]} 
+        { text: 'Add category' } : { text: 'Edit Category' }]} 
       innerPage
-      title={type === 'add' ? 'Add Category' : 'Edit Category'}
+      title={type === 'add' ? 'Add category' : 'Edit category'}
       handleClick={handleCancelCategory}
       status={status}
     >
