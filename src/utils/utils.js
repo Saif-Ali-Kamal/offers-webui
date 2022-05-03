@@ -7,6 +7,7 @@ import { onPageLoad } from '../redux/reducers/userReducer';
 import { toggleMobileSidenav } from '../redux/reducers/utilsReducer';
 import { roles } from './constant';
 import moment from 'moment';
+import { refreshUserTokenAction } from '../redux/actions/userActions';
 
 export const checkIfMobileScreen = () => {
   if(window.screen.width < 992){
@@ -64,8 +65,8 @@ export const capitalizeFirstLetter = (text) => {
 const isAdminLoggedin = () => {
   const token = getToken();
   if(token){
-    const { role, exp } = jwt.decode(token);
-    if(role === roles.admin && (exp * 1000) > Date.now()){
+    const { role } = jwt.decode(token);
+    if(role === roles.admin){
       return true;
     }
   }else {
@@ -76,8 +77,8 @@ const isAdminLoggedin = () => {
 const isSuperAdminLoggedin = () => {
   const token = getToken();
   if(token){
-    const { role, exp } = jwt.decode(token);
-    if(role === roles.superAdmin && (exp * 1000) > Date.now()){
+    const { role } = jwt.decode(token);
+    if(role === roles.superAdmin){
       return true;
     }
   }else {
